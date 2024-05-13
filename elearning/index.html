@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELearning</title>
+    <!-- boostrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- toastr -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12" id="ComponentDiv">
+                <div class="d-lg-flex justify-content-between">
+                    <div class="d-lg-flex text-center">
+                        <img src="https://images.cooltext.com/5696045.png" width="176" height="44" alt="ELearning" class="crs" onclick="window.location.href= '/'" />
+                        <img src="https://images.cooltext.com/5696047.png" width="32" height="30" alt="x" />
+                        <img src="https://images.cooltext.com/5698020.png" alt="iuh-logo" />
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div><i class="fas fa-bell crs"></i></div>
+                        &emsp;
+                        <div class="d-lg-flex text-center">
+                            <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv_dkhp/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="32" height="32" class="rounded-circle avatar">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle crs spanName" data-bs-toggle="dropdown">Phan Tấn Tài</span>
+                                <ul class="dropdown-menu rounded-0">
+                                <li><a class="dropdown-item" href="#">Link 1</a></li>
+                                <li><a class="dropdown-item" href="#">Link 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="logout();">Log out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="d-lg-flex">
+                    <div class="col-lg-8">
+                        <div class="border h-100" id="ComponentDiv">
+                            <h4 class="dynamic-underline">Thông tin sinh viên</h4>
+                            <div class="d-lg-flex mt-2">
+                                <div class="text-center">
+                                    <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv_dkhp/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="128" height="128" class="rounded-circle avatar"><br>
+                                    <span class="fw-bold spanName">Phan Tấn Tài</span><br>
+                                    <span id="spanMssv">19524791</span>
+                                </div>
+                                <div class="px-2">
+                                    <p clas>Giới tính: <span class="fw-bold" id="gender">Nam</span></p>
+                                    <p>Ngày sinh: <span class="fw-bold" id="dateOfBirth">25/05/2001</span></p>
+                                    <p>Nơi sinh: <span class="fw-bold" id="placeBorn">Hóc Môn</span></p>
+                                    <p>Số điện thoại: <span class="fw-bold" id="phoneNumber">0338188506</span></p>
+                                    <p>CMND/CCCD: <span class="fw-bold" id="citizenCard">079201030774</span></p>
+                                    <p>Địa chỉ: <span class="fw-bold" id="address">60/122, Tổ 10, KP8, Phường TCH, Q12, TPHCM</span></p>
+                                </div>
+                                <div>
+                                    <p clas>Lớp danh nghĩa: <span class="fw-bold" id="primeClass">DHKTPM24ATT</span></p>
+                                    <p clas>Khóa học: <span class="fw-bold" id="yeartStart">2019</span>-<span class="fw-bold" id="yearEnd">2023</span></p>
+                                    <p clas>Bậc đào tạo: <span class="fw-bold" id="typeOfTraning">Đại học</span></p>
+                                    <p clas>Loại hình đào tạo: <span class="fw-bold" id="quantityOfTraning">Đại trà</span></p>
+                                    <p clas>Chuyên ngành: <span class="fw-bold" id="major">Kĩ thuật phần mềm</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="ms-2 border" id="ComponentDiv">
+                            <h4 class="dynamic-underline">Tiến độ học tập</h4>
+                            <div class="text-center">
+                                <div class="progress-container">
+                                    <div class="progress-parent">
+                                        <div class="progress-child">
+                                            <div class="perfect-circle">
+                                                <span class="progress-value">0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>Mục tiêu: <span class="fw-light" id="spanCurrentCredits">0</span> / <span class="fw-bold text-decoration-underline" id="spanRequiredCredits">0</span></div>
+                            </div>
+                            <style>
+                                @keyframes progressBarAnimation {
+                                    from { width: 0%; }
+                                    to { width: var(--progress-width); }
+                                }
+                                .progress-bar {
+                                    height: 25px;
+                                    background-color: #007bff; /* Màu của progress-bar */
+                                    animation: progressBarAnimation 1s forwards; /* Áp dụng animation */
+                                }
+                            </style>
+                            <div class="progress" style="height:25px">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"></div>
+                            </div>
+                            <div class="text-center">
+                                <span>(Đã hoàn thành <span class="fw-bold" id="spanPercentDone">10%</span>)</span>&emsp;
+                                <i class="fas fa-question-circle text-primary small crs" data-bs-toggle="tooltip" title="1 Tín chỉ = 15 tiết học"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="d-lg-flex">
+                    <div class="col-lg-8 d-lg-flex">
+                        <div class="col-lg-6">
+                            <div class="h-100" id="ComponentDiv">
+                                <h4 class="dynamic-underline">Kết quả học tập</h4>
+                                <div id="gradeResultDiv">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 border">
+                            <div class="h-100 ms-2" id="ComponentDiv">
+                                <h4 class="dynamic-underline">Học phần:</h4>
+                                <div class="card" style="max-height: 40vh; overflow: auto;">
+                                    <div class="card-header">Học phần đang học</div>
+                                    <div class="card-body text-center">
+                                        <select name="select_course" id="select_course" class="form-control my-1">
+                                            <!-- Render By JQuery -->
+                                        </select>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã học phần / Học phần</th>
+                                                    <th>Số tín chỉ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tBodySubjectCourseSelected">
+                                                <!-- Render By JQuery -->
+                                            </tbody>    
+                                        </table>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="h-100 ms-2" id="ComponentDiv">
+                            <h4 class="dynamic-underline">Chức năng:</h4>
+                            <div class="p-3 d-lg-flex">
+                                <div class="col-lg-3 p-1 px-2" onclick="window.location.href = './html/student-time-table.html';">
+                                    <div class="p-2 text-center ButtonFeature crs">
+                                        <span class="d-block">Lịch học</span>
+                                        <span class="d-block">theo tuần</span>
+                                        <i class="far fa-calendar-check"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 p-1 px-2" onclick="window.location.href = './html/student-section-class.html';">
+                                    <div class="p-2 text-center ButtonFeature crs">
+                                        <span class="d-block">Đăng ký</span>
+                                        <span class="d-block">học phần</span>
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 p-1 px-2">
+                                    <div class="p-2 text-center ButtonFeature crs" onclick="window.location.href = './html/student-grade.html';">
+                                        <span class="d-block">Kết quả</span>
+                                        <span class="d-block">học tập</span>
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 p-1 px-2">
+                                    <div class="p-2 text-center ButtonFeature crs" onclick="window.location.href = './html/student-major-pattern.html';">
+                                        <span class="d-block">Chương trình khung</span>
+                                        <i class="fas fa-crop"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var myChartData;
+        var jwtToken;
+        var studentId;
+        var mssv;
+        var semesterIdFirst;
+
+        initSkeleton();
+
+        async function initSkeleton() {
+            validateToken();
+            setStudentId();
+            await fetchStudentDataAndRenderEmbbedVar();
+            await fetchSemesterSchools();
+            await fetchStudentRegistrationClasses();
+            await renderCircle();
+        }
+
+        function validateToken() {
+            // 01. Kiểm tra token
+            jwtToken = window.sessionStorage.getItem('token');
+            if (!jwtToken || jwtToken == undefined || jwtToken == '') {
+                window.location.href = "./html/student-login.html";
+            }
+        }
+
+        function setStudentId() {
+            studentId = window.sessionStorage.getItem('studentId');
+            mssv = window.sessionStorage.getItem('mssv', mssv); 
+        }
+        
+        async function fetchStudentDataAndRenderEmbbedVar() {
+                // Get student data & rendering embed var on page
+            try {
+                const response = await fetch(`http://localhost:8080/student/findById/${studentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + jwtToken
+                    }
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const studentData = await response.json();
+                // Render spanName
+                $(".spanName").text(studentData.fullName);
+
+                // Rendering info div
+                const dateOfBirth = new Date(studentData.dateOfBirth);
+                const day = dateOfBirth.getDate();
+                const month = dateOfBirth.getMonth() + 1;
+                const year = dateOfBirth.getFullYear();
+                const formattedDateOfBirth = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                $("#gender").text(studentData.gender);
+                $("#dateOfBirth").text(formattedDateOfBirth);
+                $("#placeBorn").text(studentData.placeBorn);
+                $("#phoneNumber").text(studentData.phoneNumber);
+                $("#citizenCard").text(studentData.citizenCard);
+                $(".avatar").attr('src', studentData.avatar);
+                $("#spanMssv").text(mssv);
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+        }
+
+        async function fetchSemesterSchools() {
+            const response = await fetch('http://localhost:8080/student/getSemesterSchools', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+            });
+            const semesterSchools = await response.json();
+            semesterSchools.forEach(function(semesterSchool) {
+                const option = document.createElement("option");
+                option.value = semesterSchool.id; // Set giá trị của option
+                option.textContent = "Học kỳ " + semesterSchool.stageSemester.split("_")[2] + " - " + semesterSchool.year; // Text hiển thị của option
+                $("#select_course").append(option);
+            });
+            semesterIdFirst = semesterSchools[0].id;
+        }
+
+        async function fetchStudentRegistrationClasses() {
+            try {
+                // Fetch Student Registration
+                const response = await fetch('http://localhost:8080/student/getStudentRegistrationSectionClasses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + jwtToken
+                    },
+                    body: JSON.stringify({ studentId }),
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const studentRegistrationSectionClasses = await response.json();
+                if(studentRegistrationSectionClasses.length <= 0) {
+                    if (myChartData) {
+                        myChartData.destroy();
+                    }
+                    const gradeResultDiv = document.getElementById('gradeResultDiv');
+                    gradeResultDiv.innerHTML = '';
+                    const gradeEmptyDiv = document.createElement('div');
+                    gradeEmptyDiv.textContent = 'Chưa có dữ liệu 🦆.';
+                    gradeEmptyDiv.className = 'border p-1 text-center';
+                    gradeResultDiv.appendChild(gradeEmptyDiv);
+                    return;
+                }
+    
+                // Render sectionClass/Subject
+                const response2 = await fetch('http://localhost:8080/student/getStudentRegistrationSectionClassesBySemester', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + jwtToken
+                    },
+                    body: JSON.stringify({ studentId, semesterId: semesterIdFirst }),
+                });
+                const registrationSectionClasses = await response2.json();
+                registrationSectionClasses.forEach(itemDTO => {
+                    // Render sectionClassBaseOn default selected id (fristItem)
+                    const row = document.createElement('tr');
+                    const sectionClassIdCell = document.createElement('td');
+                    const creditsCell = document.createElement('td');
+                    sectionClassIdCell.textContent = `${itemDTO.sectionClass.id} / ${itemDTO.subject.subjectName}`;
+                    creditsCell.textContent = itemDTO.subject.credits;
+                    row.appendChild(sectionClassIdCell);
+                    row.appendChild(creditsCell);
+                    tBodySubjectCourseSelected.appendChild(row);
+                });
+
+                // Render chart
+                const arrayLabels = []; // Mảng labels
+                const arrayDatas = []; // Mảng datas
+                for(let i=0; i<registrationSectionClasses.length; i++) {
+                    const customStudentRegistrationSectionClass = registrationSectionClasses[i];
+                    arrayLabels.push(customStudentRegistrationSectionClass.subject.subjectName);
+                    const response3 = await fetch('http://localhost:8080/student/getGradeByRegistrationSectionClass', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify({ registrationSectionClassId: customStudentRegistrationSectionClass.registrationSectionClass.id })
+                    });
+                    if(!response3.ok) {
+                        console.log('response3=', response3.ok);
+                        arrayDatas.push(0.0);
+                    } else {
+                        const studentGrade = await response3.json();
+                        arrayDatas.push(studentGrade.finalGrade)
+                    }
+                }
+                const ctx = document.getElementById('myChart');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: arrayLabels,
+                        datasets: [{
+                            label: '# điểm tổng kết môn',
+                            data: arrayDatas,
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                // myChartData.update('active');
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+        }
+        $(document).ready(async function() {
+            // Listen semesterId Chose
+            $("#select_course").change(async function() {
+                const selectedValue = $(this).val();
+                const response = await fetch('http://localhost:8080/student/getStudentRegistrationSectionBySemester', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + jwtToken
+                    },
+                    body: JSON.stringify({ semesterId: selectedValue }),
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const studentRegistrationSectionClass = await response.json();
+                // Render sectionClasses
+                const tBodySubjectCourseSelected = document.getElementById("tBodySubjectCourseSelected");
+                tBodySubjectCourseSelected.innerHTML = '';
+                const row = document.createElement('tr');
+
+                const sectionClassIdCell = document.createElement('td');
+                const creditsCell = document.createElement('td');
+                sectionClassIdCell.textContent = `${studentRegistrationSectionClass.sectionClass.id} / ${studentRegistrationSectionClass.subject.subjectName}`;
+                creditsCell.textContent = studentRegistrationSectionClass.subject.credits + 1;
+
+                row.appendChild(sectionClassIdCell);
+                row.appendChild(creditsCell);
+
+                tBodySubjectCourseSelected.appendChild(row);
+
+                // Render chart....
+            });
+        });
+
+        async function renderCircle() {
+            const response = await fetch('http://localhost:8080/student/getStudentProgress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+                body: JSON.stringify({ studentId }),
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+            const customStudentProgressResponseDTO = await response.json();
+            const currentCredits = customStudentProgressResponseDTO.currentCredits;
+            const requiredCredits = customStudentProgressResponseDTO.requiredCredits;
+            const percentDone = currentCredits * 100/requiredCredits;
+
+            let parentCircle = document.querySelector(".progress-parent");
+            let childCircle = document.querySelector(".progress-child");
+            let spanValue = document.querySelector(".progress-value");
+
+            let startValue = 0;
+            let endValue = 100;
+            let speed = 10;
+
+            let circleName = "parentCircle";
+            let myprogress = setInterval(() => {
+                startValue++;
+                if(circleName == "parentCircle") {
+                    parentCircle.style.background = `conic-gradient(rgb(70, 121, 231) ${startValue*3.6}deg, #ededed 0deg)`;
+                }
+                else {//nếu circleName là childCircle
+                    if(startValue >= endValue) {//Nếu startValue +1 lên > 3.16% render bg phát cuối r dừng luôn
+                        spanValue.textContent = `${endValue.toFixed(1)}%`;
+                        childCircle.style.background = `conic-gradient(#20fa4c ${endValue*3.6}deg, #ededed 0deg)`;
+                        clearInterval(myprogress);
+                        $("#spanCurrentCredits").text(currentCredits);
+                        $("#spanRequiredCredits").text(requiredCredits);
+                        const progressBar = document.querySelector('.progress-bar');
+                        progressBar.style.setProperty('--progress-width', `${percentDone}%`);
+                        $("#spanPercentDone").text(`${percentDone.toFixed(1)}%`);
+                        return;
+                    } else {
+                        spanValue.textContent = `${startValue}%`;
+                        childCircle.style.background = `conic-gradient(#20fa4c ${startValue*3.6}deg, #ededed 0deg)`;
+                    }
+                }
+                if(startValue == endValue) {
+                    startValue = 0;
+                    endValue = percentDone; // Ví dụ 68% thì dừng
+                    circleName = "childCircle";
+                }
+            }, speed);
+        }
+
+        function translateEnumric(keyString) {
+            const databases = {
+                "DANG_CHO_SINH_VIEN_DANG_KY": "Đang chờ sinh viên đăng ký",
+                "CHAP_NHAN_MO_LOP": "Chấp nhận mở lớp ⚠️",
+                "DA_KHOA": "Đã khóa ⛔",
+                "LY_THUYET": "Lý Thuyết 📖",
+                "THUC_HANH": "Thực Hành 🛠️",
+                "NHOM_1": "Nhóm 1",
+                "NHOM_2": "Nhóm 2",
+                "NHOM_3": "Nhóm 3",
+                "HOC_MOI": "Học mới",
+                "HOC_LAI": "Học lại",
+                "HOC_CAI_THIEN": "Học cải thiện",
+                "HOC_KY_1": "Học kỳ 1",
+                "HOC_KY_2": "Học kỳ 2",
+                "HOC_KY_3": "Học kỳ 3",
+            };
+            if (databases[keyString]) {
+                return databases[keyString];
+            } else {
+                return keyString;
+            }
+        }
+
+        function logout() {
+            window.sessionStorage.removeItem('mssv');
+            window.sessionStorage.removeItem('studentId');
+            window.sessionStorage.removeItem('token');
+            window.location.href = "./";
+        }
+    </script>
+</body>
+</html>

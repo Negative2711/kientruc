@@ -1,0 +1,137 @@
+.crs:hover {
+    cursor: pointer;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+    color: aquamarine;
+}
+
+.dynamic-underline {
+    font-weight: bold;
+    color: #0811bf;
+    position: relative;
+    display: inline-block; /* Để đo được chiều rộng của văn bản */
+    padding-bottom: 3px;
+}
+.dynamic-underline::after {
+    content: '';
+    /* background: #f0651a; */
+    display: block;
+    height: 4px;
+    width: 100%; /* Đặt chiều rộng của đường gạch dưới là 100% của độ rộng của thẻ h4 */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.fw-larger {
+    font-weight: 900;
+    font-size: x-large;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+}
+
+.custom-input-1 {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 3px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #2C3E50;
+    /* font-size: 13px; */
+}
+.custom-input-1:hover {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid black;
+    outline-width: 0;
+    transition: All 0.5s ease-in;
+    -webkit-transition: All 0.5s ease-in;
+    -moz-transition: All 0.5s ease-in;
+    -o-transition: All 0.5s ease-in;
+}
+.custom-button-1 {
+    width: 100px;
+    background: #27AE60;
+    font-weight: 900;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px;
+    margin: 10px 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.custom-button-2 {
+    display: inline-block;
+    outline: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0 56px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 7px;
+    background-color: #0070f3;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+    box-shadow: 0 4px 14px 0 rgb(0 118 255 / 39%);
+    transition: background 0.2s ease,color 0.2s ease,box-shadow 0.2s ease;
+    :hover{
+        background: rgba(0,118,255,0.9);
+        box-shadow: 0 6px 20px rgb(0 118 255 / 23%);
+    }
+}
+
+.custom-button-3 {
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 3px;
+    padding: 12px 24px;
+    border: 0;
+    color: #fff;
+    background: #ff5000;
+    line-height: 1.15;
+    font-size: 16px;
+    :hover {
+        transition: all .1s ease;
+        box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+    }
+}
+
+.custom-button-4 {
+    cursor: pointer;
+    outline: 0;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    :hover {
+        color: #fff;
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+}
+
+
+body {
+    background: #ededed;
+    font-family: emoji;
+}
+
+#ComponentDiv {
+    background: white;
+    padding: 0 8px;
+}

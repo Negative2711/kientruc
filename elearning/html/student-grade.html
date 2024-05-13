@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELearning</title>
+    <!-- boostrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- toastr -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        table th, td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .no-css {
+            text-align: initial; /* hoặc giá trị khác tùy ý */
+            vertical-align: initial; /* hoặc giá trị khác tùy ý */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" id="ComponentDiv">
+                <div class="d-lg-flex justify-content-between">
+                    <div class="d-lg-flex text-center">
+                        <img src="https://images.cooltext.com/5696045.png" width="176" height="44" alt="ELearning" class="crs" onclick="window.location.href= '/'" />
+                        <img src="https://images.cooltext.com/5696047.png" width="32" height="30" alt="x" />
+                        <img src="https://images.cooltext.com/5698020.png" alt="iuh-logo" />
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div><i class="fas fa-bell crs"></i></div>
+                        &emsp;
+                        <div class="d-lg-flex text-center">
+                            <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv_dkhp/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="32" height="32" class="rounded-circle avatar">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle crs spanName" data-bs-toggle="dropdown">Phan Tấn Tài</span>
+                                <ul class="dropdown-menu rounded-0">
+                                <li><a class="dropdown-item" href="#">Link 1</a></li>
+                                <li><a class="dropdown-item" href="#">Link 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="logout();">Log out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-1 bg-white p-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="text-muted fw-bold">Kết quả học tập</h3>
+                    &emsp;
+                    <i class="far fa-question-circle text-info crs" data-bs-toggle="tooltip" title="Tổng số học kỳ sẽ bằng số năm học của sinh viên tại trường NHÂN (x) với 2. Do mỗi năm học có 2 học kỳ."></i>
+                </div>
+                <hr>
+                <div class="table-responsive" style="background: lightgrey;">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>STT</th>
+                                <th>Mã LHP</th>
+                                <th>Mã môn học</th>
+                                <th>Số tín chỉ</th>
+                                <th>Điểm LT1</th>
+                                <th>Điểm LT2</th>
+                                <th>Điểm LT3</th>
+                                <th>Điểm TH1</th>
+                                <th>Điểm TH2</th>
+                                <th>Điểm TH3</th>
+                                <th>Điểm Giữa Kỳ</th>
+                                <th>Điểm Cuối Kỳ</th>
+                                <th>Điểm Tổng Kết</th>
+                                <th>Thang điểm 4</th>
+                                <th>Điểm chữ</th>
+                                <th>Xếp loại</th>
+                                <th>Đạt?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tBodyGrades">
+                            <!-- Render By JQuery -->
+                            <!-- <tr>
+                                <td>1</td>
+                                <td>100000001624</td>
+                                <td>100000005568</td>
+                                <td>6</td>
+                                <td>7</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td>8</td>
+                                <td>7</td>
+                                <td>6</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td>7.9</td>
+                                <td>3.6</td>
+                                <td>A-</td>
+                                <td>Khá Giỏi</td>
+                                <td>Passed</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">Tổng kết Học kỳ 1</td>
+                                <td colspan="8" class="no-css">Điểm trung bình học kỳ: variable</td>
+                                <td rowspan="2">Nhận xét của GVBM:</td>
+                                <td rowspan="2" colspan="7" class="fst-italic text-decoration-underline">variable</td>
+                            </tr>
+                            <tr>
+                                <td colspan="8" class="no-css">Tổng số tín chỉ Học kỳ hoàn thành: variable</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-1" id="ComponentDiv">
+                <h5><i class="fas fa-square-root-alt text-info"></i> Cách tính điểm TBC Tích Lũy tại trường Đại Học Công Nghiệp TP.HCM</h5>
+                <div class="d-flex">
+                    <img src="../image/cach-tinh-diem-tbc-tich-luy-iuh.PNG" alt="cach-tinh-diem-tbc-tich-luy-iuh" width="100%">
+                    <img src="../image/cach-tinh-diem-tbc-tich-luy-iuh-2.PNG" alt="cach-tinh-diem-tbc-tich-luy-iuh-2" width="100%">&emsp;
+                    <a href="https://giusetrantoan.wordpress.com/2017/06/29/cach-tinh-diem-tbc-tich-luy-iuh/?fbclid=IwZXh0bgNhZW0CMTEAAR1fNeoJexZgTmXM5VyRPwZ95q8puZS6OVRpu7Ov8bcpoT8rEYBh3lZQtbw_aem_AchlAXmElpeGvpNumqb8H-lTi66o6q0E0a9zTex7qBZ_-zEBvBVlMezTYgt1Bn-NSPz5xcWixjNerJ-stUbetW5X" target="_blank">Tham khảo thêm tại đây!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var jwtToken;
+        var studentId;
+
+        initSkeleton();
+
+        async function initSkeleton() {
+            validateToken();
+            setStudentId();
+            await fetchStudentDataAndRenderEmbbedVar();
+            await fetchStudentGrades();
+        }
+
+        function validateToken() {
+            // 01. Kiểm tra token
+            jwtToken = window.sessionStorage.getItem('token');
+            if (!jwtToken || jwtToken == undefined || jwtToken == '') {
+                window.location.href = "./student-login.html";
+            }
+        }
+
+        function setStudentId() {
+            studentId = window.sessionStorage.getItem('studentId');  
+        }
+        
+        async function fetchStudentDataAndRenderEmbbedVar() {
+            // Get student data & rendering embed var on page
+            try {
+                const response = await fetch(`http://localhost:8080/student/findById/${studentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + jwtToken
+                    }
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const studentData = await response.json();
+                // Render spanName
+                $(".spanName").text(studentData.fullName);
+                $(".avatar").attr('src', studentData.avatar);
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+        }
+
+        async function fetchStudentGrades() {
+            const response = await fetch(`http://localhost:8080/student/getStudentGrades`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+                body: JSON.stringify({ studentId })
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+            const semesterStudentGrades = await response.json();
+
+
+            const tBodyGrades = document.getElementById('tBodyGrades');
+            semesterStudentGrades.forEach(semesterStudentGrade => {// Vòng lặp to nhất - Vòng lặp mỗi semesterPattern
+                const stageSemester = translateEnumric(semesterStudentGrade.semesterPattern.stageSemester);
+                const studentGrades = semesterStudentGrade.studentGrades;
+                if(studentGrades.length <= 0) {
+                    // <tr>
+                    //     <td rowspan="2">Tổng kết Học kỳ 1</td>
+                    //     <td colspan="8" class="no-css">Điểm trung bình học kỳ: variable</td>
+                    //     <td rowspan="2">Nhận xét của GVBM:</td>
+                    //     <td rowspan="2" colspan="7" class="fst-italic text-decoration-underline">variable</td>
+                    // </tr>
+                    // <tr>
+                    //     <td colspan="8" class="no-css">Tổng số tín chỉ Học kỳ hoàn thành: variable</td>
+                    // </tr>
+                    const row1 = document.createElement('tr');
+                    const row2 = document.createElement('tr');
+                    const row3 = document.createElement('tr');
+                    const row4 = document.createElement('tr'); // seperator row
+
+                    const headerTitleCell = document.createElement('td');
+                    headerTitleCell.rowSpan = 3;
+                    headerTitleCell.textContent = stageSemester;
+
+                    const emptyCell = document.createElement('td');
+                    emptyCell.colSpan = 17;
+                    emptyCell.className = 'text-center'
+                    emptyCell.textContent = 'Không có dữ liệu.';
+
+                    const titleSummaryCell = document.createElement('td');
+                    const averageSemesterCell = document.createElement('td');
+                    const titleCommentOfTeacherCell = document.createElement('td');
+                    const noteCell = document.createElement('td');
+
+                    const totalSemesterCreditsCell = document.createElement('td');
+
+                    titleSummaryCell.rowSpan = 2;
+                    titleSummaryCell.textContent = `Tổng kết ${stageSemester}`;
+                    averageSemesterCell.colSpan = 8;
+                    averageSemesterCell.className = 'no-css';
+                    averageSemesterCell.textContent = `Điểm trung bình Tích lũy Học kỳ: 0`
+                    titleCommentOfTeacherCell.rowSpan = 2;
+                    titleCommentOfTeacherCell.textContent = 'Nhận xét của GVBM:';
+                    noteCell.rowSpan = 2;
+                    noteCell.colSpan = 7;
+                    noteCell.className = 'fst-italic text-decoration-underline';
+                    noteCell.textContent = "";
+
+                    totalSemesterCreditsCell.colSpan = 8;
+                    totalSemesterCreditsCell.className = 'no-css';
+                    totalSemesterCreditsCell.textContent = `Tổng số tín chỉ Học kỳ hoàn thành: 0`;
+
+                    const seperatorCell = document.createElement('td');
+                    seperatorCell.colSpan = 18;
+
+                    row1.appendChild(headerTitleCell);
+                    row1.appendChild(emptyCell);
+                    row2.appendChild(titleSummaryCell);
+                    row2.appendChild(averageSemesterCell);
+                    row2.appendChild(titleCommentOfTeacherCell);
+                    row2.appendChild(noteCell);
+                    row3.appendChild(totalSemesterCreditsCell);
+                    row4.appendChild(seperatorCell);
+
+                    tBodyGrades.appendChild(row1);
+                    tBodyGrades.appendChild(row2);
+                    tBodyGrades.appendChild(row3);
+                    tBodyGrades.appendChild(row4);
+                } else {
+                    let sigmaCumalativeAverage = 0; // Numerator - Sigma tử là tổng điểm finalGrade tất cả môn cộng lại
+                    let sigmaCredits = 0; // Denominator - Sigma mẫu là tổng tín chỉ cộng lại
+                    let teacherNotes = []; // Push các note của grade vào 1 biến để lát render
+                    
+                    studentGrades.forEach((studentGrade, i) => { // Vòng lặp nhằm mục đích render tbody & tính luôn TBC Học Kỳ Tích Lũy
+                        const finalGrade = calFinalScore(studentGrade);
+                        console.log('finalGradeDDDDDDDDDDDD=', finalGrade);
+
+                        // Chỉ cần có 1 môn mà chưa có finalGrade thì sigma sẽ bị phá hủy vì sigma dựa trên tổng tất cả
+                        if(finalGrade == 0) {// Hủy sigma vì có môn nào đó chưa có điểm CK
+                            sigmaCumalativeAverage = -1; sigmaCredits = -1;
+                        }
+
+                        if(sigmaCumalativeAverage >= 0) { // ... sigma chưa bị hủy
+                            const subjectCredits = studentGrade.subject.credits;
+                            sigmaCumalativeAverage += finalGrade * subjectCredits;
+                            sigmaCredits += subjectCredits;
+                        }
+                        
+                        const row = document.createElement('tr');
+
+                        
+                        
+
+                        const headerTitleCell = document.createElement('td');
+                        const sttCell = document.createElement('td');
+                        const sectionClassIdCell = document.createElement('td');
+                        const subjectIdCell = document.createElement('td');
+                        const creditsCell = document.createElement('td');
+                        const gradeLT1Cell = document.createElement('td');
+                        const gradeLT2Cell = document.createElement('td');
+                        const gradeLT3Cell = document.createElement('td');
+                        const gradeTH1Cell = document.createElement('td');
+                        const gradeTH2Cell = document.createElement('td');
+                        const gradeTH3Cell = document.createElement('td');
+                        const gradeGKCell = document.createElement('td');
+                        const gradeCKCell = document.createElement('td');
+                        const finalGradeCell = document.createElement('td');
+                        const grade4Cell = document.createElement('td');
+                        const letterGradeCell = document.createElement('td');
+                        const gradeRankingCell = document.createElement('td');
+                        const isPassCell = document.createElement('td');
+
+                        headerTitleCell.rowSpan = 2 + studentGrades.length;
+                        headerTitleCell.textContent = stageSemester;
+                        sttCell.textContent = i + 1;
+                        sectionClassIdCell.textContent = studentGrade.sectionClass.id;
+                        subjectIdCell.textContent = `${studentGrade.subject.id}/${studentGrade.subject.subjectName}`;
+                        creditsCell.textContent = studentGrade.subject.credits;
+                        gradeLT1Cell.textContent = studentGrade.grade.gradeLT1;
+                        gradeLT2Cell.textContent = studentGrade.grade.gradeLT2;
+                        gradeLT3Cell.textContent = studentGrade.grade.gradeLT3;
+                        gradeTH1Cell.textContent = studentGrade.grade.gradeTH1;
+                        gradeTH2Cell.textContent = studentGrade.grade.gradeTH2;
+                        gradeTH3Cell.textContent = studentGrade.grade.gradeTH3;
+                        gradeGKCell.textContent = studentGrade.grade.gradeGK;
+                        gradeCKCell.textContent = studentGrade.grade.gradeCK;
+                        finalGradeCell.textContent = studentGrade.grade.finalGrade;
+                        grade4Cell.textContent = calGrade4Score(studentGrade);
+                        letterGradeCell.textContent = calLetterGrade(studentGrade);
+                        gradeRankingCell.textContent = calLetterGrade(studentGrade);
+                        isPassCell.textContent = isPass(studentGrade);
+
+                        row.appendChild(headerTitleCell);
+                        row.appendChild(sttCell);
+                        row.appendChild(sectionClassIdCell);
+                        row.appendChild(subjectIdCell);
+                        row.appendChild(creditsCell);
+                        row.appendChild(gradeLT1Cell);
+                        row.appendChild(gradeLT2Cell);
+                        row.appendChild(gradeLT3Cell);
+                        row.appendChild(gradeTH1Cell);
+                        row.appendChild(gradeTH2Cell);
+                        row.appendChild(gradeTH3Cell);
+                        row.appendChild(gradeGKCell);
+                        row.appendChild(gradeCKCell);
+                        row.appendChild(finalGradeCell);
+                        row.appendChild(grade4Cell);
+                        row.appendChild(letterGradeCell);
+                        row.appendChild(gradeRankingCell);
+                        row.appendChild(isPassCell);
+
+                        tBodyGrades.appendChild(row);
+                        teacherNotes.push(studentGrade.grade.note);
+                    });
+
+                    const cumulativeAverageScore = sigmaCumalativeAverage / sigmaCredits;
+                    console.log('cumulativeAverageScore=', cumulativeAverageScore);
+
+                    // <tr>
+                    //     <td rowspan="2">Tổng kết Học kỳ 1</td>
+                    //     <td colspan="8" class="no-css">Điểm trung bình Tích lũy Học kỳ: variable</td>
+                    //     <td rowspan="2">Nhận xét của GVBM:</td>
+                    //     <td rowspan="2" colspan="7" class="fst-italic text-decoration-underline">variable</td>
+                    // </tr>
+                    // <tr>
+                    //     <td colspan="8" class="no-css">Tổng số tín chỉ Học kỳ hoàn thành: variable</td>
+                    // </tr>
+                    const row2 = document.createElement('tr');
+                    const row3 = document.createElement('tr');
+                    const row4 = document.createElement('tr');
+
+                    const titleSummaryCell = document.createElement('td');
+                    const averageSemesterCell = document.createElement('td');
+                    const titleCommentOfTeacherCell = document.createElement('td');
+                    const noteCell = document.createElement('td');
+
+                    const totalSemesterCreditsCell = document.createElement('td');
+
+                    const seperatorCell = document.createElement('td');
+
+                    titleSummaryCell.rowSpan = 2;
+                    titleSummaryCell.textContent = `Tổng kết ${stageSemester}`; // OK
+                    averageSemesterCell.colSpan = 8;
+                    averageSemesterCell.className = 'no-css';
+                    averageSemesterCell.textContent = `Điểm trung bình Tích lũy Học kỳ: ${cumulativeAverageScore}`; // OK
+                    titleCommentOfTeacherCell.rowSpan = 2;
+                    titleCommentOfTeacherCell.textContent = 'Nhận xét của GVBM:'; // OK
+                    noteCell.rowSpan = 2;
+                    noteCell.colSpan = 7;
+                    noteCell.className = 'fst-italic text-decoration-underline';
+                    noteCell.textContent = teacherNotes.toString();
+
+                    totalSemesterCreditsCell.colSpan = 8;
+                    totalSemesterCreditsCell.className = 'no-css';
+                    totalSemesterCreditsCell.textContent = `Tổng số tín chỉ Học kỳ hoàn thành: ${sigmaCredits}`;
+
+                    seperatorCell.colSpan = 18;
+
+                    row2.appendChild(titleSummaryCell);
+                    row2.appendChild(averageSemesterCell);
+                    row2.appendChild(titleCommentOfTeacherCell);
+                    row2.appendChild(noteCell);
+
+                    row3.appendChild(totalSemesterCreditsCell);
+
+                    row4.appendChild(seperatorCell);
+
+                    tBodyGrades.appendChild(row2);
+                    tBodyGrades.appendChild(row3);
+                    tBodyGrades.appendChild(row4);
+                }
+            });// end foreach studentGrades
+
+
+
+
+        }
+
+        function calFinalScore(studentGrade) {// Switch case môn chỉ có (1) Lý thuyết (2) Lý thuyết & Thực hành
+            if(!studentGrade.grade.gradeCK || studentGrade.grade.gradeCK <= 0) {// Nếu chưa có điểm CK
+                return 0;
+            }
+            const creditsOfExcercise = studentGrade.subject.numberOfExcerise;
+            const gradeLT1 = Number(studentGrade.grade.gradeLT1);
+            const gradeLT2 = Number(studentGrade.grade.gradeLT2);
+            const gradeLT3 = Number(studentGrade.grade.gradeLT3);
+            const gradeGK = Number(studentGrade.grade.gradeGK);
+            const gradeCK = Number(studentGrade.grade.gradeCK);
+            switch (creditsOfExcercise) {
+                case 0: // Là môn chỉ có Lý Thuyết
+                    const gradeTK = (gradeLT1 + gradeLT2 + gradeLT3) / 3;
+                    const myFinalGrade = ((gradeTK*20) + (gradeGK*30) + (gradeCK*50)) / 100;
+                    return myFinalGrade;
+                default:
+                    // Tính tổng kết lý thuyết
+                    const gradeTKLT = (gradeLT1 + gradeLT2 + gradeLT3) / 3;
+                    const finalGradeLT = ((gradeTKLT*20) + (gradeGK*30) + (gradeCK*50)) / 100;
+                    const x = Number(studentGrade.subject.numberOfTheory / 15);
+
+                    // Tính tổng kết thực hành
+                    const gradeTH1 = Number(studentGrade.grade.gradeTH1);
+                    const gradeTH2 = Number(studentGrade.grade.gradeTH2);
+                    const gradeTH3 = Number(studentGrade.grade.gradeTH3);
+                    const TBCTH = (gradeTH1 + gradeTH2 + gradeTH3) / 3;
+                    const y = Number(studentGrade.subject.numberOfExcerise / 15);
+
+                    // Tổng kết môn
+                    const z = Number(studentGrade.subject.credits);
+                    const finalGrade = ((finalGradeLT*x) + (TBCTH*y)) / z;
+                    return finalGrade;
+            }
+        }
+
+        function calGrade4Score(studentGrade) {
+            if(calFinalScore(studentGrade) <= 0)
+                return 0;
+            else
+                return calFinalScore(studentGrade) * 4 / 10;
+        }
+
+        function calLetterGrade(studentGrade) {
+            const finalScore = calFinalScore(studentGrade);
+            if(calFinalScore(studentGrade) <= 0)
+                return "";
+            else {
+                if(finalScore < 4)
+                    return "F";
+                if(finalScore >= 4.0 && finalScore <= 4.9)
+                    return "D";
+                if(finalScore >=5.0 && finalScore <= 5.4)
+                    return "D+";
+                if(finalScore >= 5.5 && finalScore <= 6.4)
+                    return "C";
+                if(finalScore >= 6.5 && finalScore <= 6.9)
+                    return "C+";
+                if(finalScore >= 7.0 && finalScore <= 7.9)
+                    return "B";
+                if(finalScore >= 8.0 && finalScore <= 8.4)
+                    return "B+";
+                return "A";
+            }
+        }
+        function calGradeRanking(studentGrade) {
+            const finalScore = calFinalScore(studentGrade);
+            if(calFinalScore(studentGrade) <= 0)
+                return "";
+            else {
+                if(finalScore < 4)
+                    return "Kém";
+                if(finalScore >= 4.0 && finalScore <= 4.9)
+                    return "Yếu";
+                if(finalScore >=5.0 && finalScore <= 5.4)
+                    return "Trung bình yếu";
+                if(finalScore >= 5.5 && finalScore <= 6.4)
+                    return "Trung bình";
+                if(finalScore >= 6.5 && finalScore <= 6.9)
+                    return "Trung bình khá";
+                if(finalScore >= 7.0 && finalScore <= 7.9)
+                    return "Khá";
+                if(finalScore >= 8.0 && finalScore <= 8.4)
+                    return "Khá giỏi";
+                return "Giỏi";
+            }
+        }
+        function isPass(studentGrade) {
+            if(calFinalScore(studentGrade) > 0 && calFinalScore(studentGrade) <= 4)
+                return "Failed ❌";
+            else
+                return "Passed ✔️";
+        }
+        function translateEnumric(keyString) {
+            const databases = {
+                "DANG_CHO_SINH_VIEN_DANG_KY": "Đang chờ sinh viên đăng ký",
+                "CHAP_NHAN_MO_LOP": "Chấp nhận mở lớp ⚠️",
+                "DA_KHOA": "Đã khóa ⛔",
+                "LY_THUYET": "Lý Thuyết 📖",
+                "THUC_HANH": "Thực Hành 🛠️",
+                "NHOM_1": "Nhóm 1",
+                "NHOM_2": "Nhóm 2",
+                "NHOM_3": "Nhóm 3",
+                "HOC_MOI": "Học mới",
+                "HOC_LAI": "Học lại",
+                "HOC_CAI_THIEN": "Học cải thiện",
+                "HOC_KY_1": "Học kỳ 1",
+                "HOC_KY_2": "Học kỳ 2",
+                "HOC_KY_3": "Học kỳ 3",
+                "HOC_KY_4": "Học kỳ 4",
+                "HOC_KY_5": "Học kỳ 5",
+                "HOC_KY_6": "Học kỳ 6",
+                "HOC_KY_7": "Học kỳ 7",
+                "HOC_KY_8": "Học kỳ 8",
+                "HOC_KY_9": "Học kỳ 9",
+                "HOC_KY_10": "Học kỳ 10",
+            };
+            if (databases[keyString]) {
+                return databases[keyString];
+            } else {
+                return keyString;
+            }
+        }
+
+        function logout() {
+            window.sessionStorage.clear();
+            window.sessionStorage.removeItem('mssv');
+            window.sessionStorage.removeItem('studentId');
+            window.sessionStorage.removeItem('token');
+            window.location.href = "./student-login.html";
+        }
+    </script>
+</body>
+</html>

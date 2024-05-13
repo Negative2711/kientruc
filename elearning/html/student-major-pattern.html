@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELearning</title>
+    <!-- boostrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- toastr -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        table th, td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .no-css {
+            text-align: initial; /* hoặc giá trị khác tùy ý */
+            vertical-align: initial; /* hoặc giá trị khác tùy ý */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" id="ComponentDiv">
+                <div class="d-lg-flex justify-content-between">
+                    <div class="d-lg-flex text-center">
+                        <img src="https://images.cooltext.com/5696045.png" width="176" height="44" alt="ELearning" class="crs" onclick="window.location.href= '/'" />
+                        <img src="https://images.cooltext.com/5696047.png" width="32" height="30" alt="x" />
+                        <img src="https://images.cooltext.com/5698020.png" alt="iuh-logo" />
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div><i class="fas fa-bell crs"></i></div>
+                        &emsp;
+                        <div class="d-lg-flex text-center">
+                            <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv_dkhp/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="32" height="32" class="rounded-circle avatar">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle crs spanName" data-bs-toggle="dropdown">Phan Tấn Tài</span>
+                                <ul class="dropdown-menu rounded-0">
+                                <li><a class="dropdown-item" href="#">Link 1</a></li>
+                                <li><a class="dropdown-item" href="#">Link 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="logout();">Log out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 bg-white p-3">
+                <p class="fs-3 fw-bold text-muted">Chương trình khung!</p>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm table-hover">
+                        <thead class="table-info text-center">
+                            <th>STT</th>
+                            <th>Tên môn học/học phần</th>
+                            <th>Mã học phần</th>
+                            <th>Học phần ràng buộc</th>
+                            <th>Số TC cần</th>
+                            <th>Số tiết LT</th>
+                            <th>Số tiết TH</th>
+                            <th>Thuộc nhóm tự chọn <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Cột này hiển thị nhóm học của môn tự chọn chiếu theo. Nhóm học thường chia làm 2-3 nhóm. Nhiều môn tự chọn sẽ được gom vào 1 nhóm. Mỗi nhóm bạn phải chọn ít nhất 1 môn để học cho đủ số TC mà học kỳ đó bắt buộc. NHẮC LẠI: tự chọn không có nghĩa là không chọn cũng được, mà là bắt buộc tự chọn 1 hoặc nhiều trong các môn trong một nhóm để học cho đủ tín chỉ!"></i></th>
+                            <th>Hoàn thành?</th>
+                        </thead>
+                        <tbody id="tBodySemesterPattern">
+                            <!-- Render By AJax -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="small">
+                    <span class="text-warning d-block"><i class="fas fa-exclamation-circle text-danger"></i>Ghi chú:</span>
+                    <div class="d-flex">
+                        <div class="flex-fill">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-square-full border border-info" style="color: #CFF4FC;"></i>&nbsp;
+                                <span class="text-secondary">Là ô đánh dấu môn/học phần đã hoàn thành và đạt và có điểm <i class="fas fa-check-square text-success"></i></span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-square-full border border-1" style="color: white;"></i>&nbsp;
+                                <span class="text-secondary">Mặc định là ô môn/học phần đang hoặc chưa hoàn thành <i class="fas fa-times text-danger"></i></span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-success"></i>&nbsp;
+                                <span class="text-secondary">Môn học đã hoàn thành</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-times-circle border-1 text-danger"></i>&nbsp;
+                                <span class="text-secondary">Môn học rớt hoặc chưa đạt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        var jwtToken;
+        var studentId;
+
+        initSkeleton();
+
+        async function initSkeleton() {
+            validateToken();
+            setStudentId();
+            await fetchStudentDataAndRenderEmbbedVar();
+            await fetchSemesterPatterns();
+        }
+
+        async function fetchSemesterPatterns() {
+            const response = await fetch(`http://localhost:8080/student/getSemesterPatternsByStudent`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+                body: JSON.stringify({ studentId }),
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+            const semesterPattern = await response.json();
+            const semesters = semesterPattern.semesters;
+
+
+            semesters.forEach(semester => {
+                let appendAccquiredSubjects = '';
+                let appendOptionalSubjects;
+
+                if(semester.accquiredSubjects.length > 0) {
+                    semester.accquiredSubjects.forEach((accquiredSubject, i) => {
+                        appendAccquiredSubjects += `
+                        <tr class=${accquiredSubject.pass ? `"collapse demo${semester.semesterPatternId} table-secondary"` : `"collapse demo${semester.semesterPatternId}"`}>
+                            <td>${i+1}</td>
+                            <td>${accquiredSubject.subject.subjectName}</td>
+                            <td>${accquiredSubject.subject.id}</td>
+                            <td>${accquiredSubject.subject.preRequiredSubjectId}</td>
+                            <td>${accquiredSubject.subject.credits}</td>
+                            <td>${accquiredSubject.subject.numberOfTheory}</td>
+                            <td>${accquiredSubject.subject.numberOfExcerise}</td>
+                            <td>${accquiredSubject.subject.groupNumber}</td>
+                            <td>${accquiredSubject.pass ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle border-1 text-danger"></i>'}</td>
+                        </tr>
+                        `;
+                    });
+                }
+
+                if(semester.optionalSubjects.length > 0) {
+                    semester.optionalSubjects.forEach((optionalSubject, i) => {
+                        appendOptionalSubjects += `
+                        <tr class=${accquiredSubject.pass ? `"collapse demo${semester.semesterPatternId} table-secondary"` : `"collapse demo${semester.semesterPatternId}"`}>
+                            <td>${i+1}</td>
+                            <td>${optionalSubject.subject.subjectName}</td>
+                            <td>${optionalSubject.subject.id}</td>
+                            <td>${optionalSubject.subject.preRequiredSubjectId}</td>
+                            <td>${optionalSubject.subject.credits}</td>
+                            <td>${optionalSubject.subject.numberOfTheory}</td>
+                            <td>${optionalSubject.subject.numberOfExcerise}</td>
+                            <td>${optionalSubject.subject.groupNumber}</td>
+                            <td>${optionalSubject.pass ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle border-1 text-danger"></i>'}</td>
+                        </tr>
+                        `;
+                    });
+                }
+
+
+
+                
+
+
+                const row = `
+                <tr class="crs" data-bs-toggle="collapse" data-bs-target=".demo${semester.semesterPatternId}">
+                    <td colspan="4">${semester.stageSemester}</td>
+                    <td>${semester.totalRequiredCredits}</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr class="collapse demo${semester.semesterPatternId}">
+                    <td colspan="4" class="no-css fw-bold">Học phần Bắt buộc:</td>
+                    <td>${semester.totalAccquiredCredits}</td>
+                    <td colspan="4"></td>
+                </tr>
+                ${appendAccquiredSubjects}
+                <tr class="collapse demo${semester.semesterPatternId}">
+                    <td colspan="4" class="no-css fw-bold">Học phần Tự chọn:</td>
+                    <td>${semester.totalOptionalCredits}</td>
+                    <td colspan="4"></td>
+                </tr>
+                ${appendOptionalSubjects}`;
+                $("#tBodySemesterPattern").append(row);
+            });
+            const summaryCreditRow = `
+                <tr class="table-light">
+                    <td colspan="4" class="fw-bold">Tổng TC môn bắt buộc</td>
+                    <td class="text-center fw-bold">${semesterPattern.totalAccquiredSujectCredits}</td>
+                    <td colspan="5">&nbsp;</td>
+                </tr>
+                <tr class="table-light">
+                    <td colspan="4" class="fw-bold">Tổng TC môn tự chọn</td>
+                    <td class="text-center fw-bold">${semesterPattern.totalOptionalSubjectCredits}</td>
+                    <td colspan="5">&nbsp;</td>
+                </tr>
+                <tr class="table-light">
+                    <td colspan="4" class="fw-bold">Tổng TC yêu cầu</td>
+                    <td class="text-center fw-bold">${semesterPattern.totalRequiredCredits}</td>
+                    <td colspan="5">&nbsp;</td>
+                </tr>
+            `;
+            $("#tBodySemesterPattern").append(summaryCreditRow);
+        }
+
+        function validateToken() {
+            // 01. Kiểm tra token
+            jwtToken = window.sessionStorage.getItem('token');
+            if (!jwtToken || jwtToken == undefined || jwtToken == '') {
+                window.location.href = "./student-login.html";
+            }
+        }
+
+        function setStudentId() {
+            studentId = window.sessionStorage.getItem('studentId');   
+        }
+        
+        async function fetchStudentDataAndRenderEmbbedVar() {
+            // Get student data & rendering embed var on page
+            try {
+                const response = await fetch(`http://localhost:8080/student/findById/${studentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + jwtToken
+                    }
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const studentData = await response.json();
+                // Render spanName
+                $(".spanName").text(studentData.fullName);
+                $(".avatar").attr('src', studentData.avatar);
+
+                // Rendering info div
+                const dateOfBirth = new Date(studentData.dateOfBirth);
+                const day = dateOfBirth.getDate();
+                const month = dateOfBirth.getMonth() + 1;
+                const year = dateOfBirth.getFullYear();
+                const formattedDateOfBirth = (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + year;
+                $("#gender").text(studentData.gender);
+                $("#dateOfBirth").text(formattedDateOfBirth);
+                $("#placeBorn").text(studentData.placeBorn);
+                $("#phoneNumber").text(studentData.phoneNumber);
+                $("#citizenCard").text(studentData.citizenCard);
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+        }
+
+        function logout() {
+            window.sessionStorage.clear();
+            window.sessionStorage.removeItem('mssv');
+            window.sessionStorage.removeItem('studentId');
+            window.sessionStorage.removeItem('token');
+            window.location.href = "./student-login.html";
+        }
+    </script>
+</body>
+</html>

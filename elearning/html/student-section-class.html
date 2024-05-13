@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELearning</title>
+    <!-- boostrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- toastr -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- sweet alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" id="ComponentDiv">
+                <div class="d-lg-flex justify-content-between">
+                    <div class="d-lg-flex text-center">
+                        <img src="https://images.cooltext.com/5696045.png" width="176" height="44" alt="ELearning" class="crs" onclick="window.location.href= '/'" />
+                        <img src="https://images.cooltext.com/5696047.png" width="32" height="30" alt="x" />
+                        <img src="https://images.cooltext.com/5698020.png" alt="iuh-logo" />
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div><i class="fas fa-bell crs"></i></div>
+                        &emsp;
+                        <div class="d-lg-flex text-center">
+                            <img src="https://res.cloudinary.com/dopzctbyo/image/upload/v1672644566/sv_dkhp/sv-iuh-avatar-pattern_oyubmc.jpg" alt="avatar" width="32" height="32" class="rounded-circle avatar">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle crs spanName" data-bs-toggle="dropdown">Phan Tấn Tài</span>
+                                <ul class="dropdown-menu rounded-0">
+                                <li><a class="dropdown-item" href="#">Link 1</a></li>
+                                <li><a class="dropdown-item" href="#">Link 2</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="logout();">Log out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="fw-bold mt-4">Đăng ký học phần</h3>
+        <!-- Selection Box -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="ComponentDiv" class="mt-3 p-4">
+                    <select name="" id="selectSemesterSchool" class="form-control">
+                        <option value="" selected>Vui lòng chọn học kỳ đăng ký học phần ▾</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Subjects -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="ComponentDiv" class="mt-3 p-4">
+                    <span class="fw-bold">Danh sách môn học / học phần chờ đăng ký <i class="fas fa-question-circle text-primary crs" data-bs-toggle="tooltip" title="Danh sách môn học có thể học đã được lọc đối cho phù hợp với từng sinh viên từng ngành khác nhau."></i></span>
+                    <div class="table-responsive">
+                        <form id="FormSelectedSubject">
+                            <table class="table table-bordered table-hover text-nowrap text-center">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th></th>
+                                        <th>STT</th>
+                                        <th>Mã học phần</th>
+                                        <th>Tên môn học</th>
+                                        <th>Số tín chỉ</th>
+                                        <th>Bắt buộc?</th>
+                                        <th>Yêu cầu học phần trước</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tBodySubjects">
+                                    <!-- Content rendered by JQuery -->
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- SectionClasses -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="ComponentDiv" class="mt-3 p-4">
+                    <span class="fw-bold">Chọn lớp học phần / nhóm học phần muốn đăng ký <i class="fas fa-question-circle text-primary crs" data-bs-toggle="tooltip" title="Danh sách lớp học phần từ môn học được mở trong học kỳ mà bạn có thể chọn để học."></i></span>
+                    <div>
+                        <div class="d-lg-flex">
+                            <div class="col-lg-10">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="showSectionClassNonInterrupt" name="filterInterrupt" value="showSectionClassNonInterrupt" />
+                                    <label class="form-check-label" for="showSectionClassNonInterrupt">&emsp;Hiển thị lớp học phần không trùng lịch</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="showSectionClassNonLock" name="filterLock" value="showSectionClassNonLock" />
+                                    <label class="form-check-label" for="showSectionClassNonLock">&emsp;Hiển thị lớp học phần chưa khóa</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2" style="direction: rtl;">
+                                <span class="fw-bold">Chọn lịch học mong muốn: <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Bảng sẽ hiển thị danh sách lịch học tương ứng với lớp học phần. Bạn có thể tự do lựa chọn một trong các lịch học mong muốn để tránh việc áp cứng giờ giấc."></i></span>
+                                <button type="button" class="custom-button-4" onclick="interruptTimeTableModal();">Xem lịch trùng</button>
+                            </div>
+                        </div>
+                        <div class="d-lg-flex mt-2">
+                            <div class="col-lg-6 pe-2 table-responsive">
+                                <form id="FormSelectedSectionClass">
+                                    <table class="table table-hover text-nowrap table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>STT</th>
+                                                <th>Thông tin lớp học phần</th>
+                                                <th>Đã đăng ký</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tBodySectionClasses">
+                                            <!-- Content rendered by JQuery -->
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                            <div class="col-lg-6 ps-2 table-responsive">
+                                <form id="FormSelectedSectionClassGroup">
+                                    <table class="table table-hover text-nowrap table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Trạng thái: <span class="fw-bold" id="spanSectionClassStatus"></span></th>
+                                                <th>Nhóm học</th>
+                                                <th>Thông tin LHP</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tBodySectionClassesGroup">
+                                            <!-- Content rendered by JQuery -->
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <div class="text-end"><button type="button" class="custom-button-2" onclick="register();">Đăng ký</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Registered SectionClasses -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="ComponentDiv" class="mt-3 p-4">
+                    <span class="fw-bold">Lớp học phần được đăng ký từ môn học / học phần: <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Đây là bảng thông tin chi tiết lớp học phần mà bạn đã đăng ký môn học / học phần từ bảng trên."></i></span>
+                    <div class="border table-responsive">
+                        <table class="table table-bordered table-hover text-nowrap text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã lớp học phần</th>
+                                    <th>Tên môn học phần</th>
+                                    <th>Lớp đại diện</th>
+                                    <th>Số tín chỉ</th>
+                                    <th>Thuộc nhóm học</th>
+                                    <th>Học phí</th>
+                                    <th>Hạn nộp</th>
+                                    <th>Thu?</th>
+                                    <th>Loại học</th>
+                                    <th>Ngày đăng ký</th>
+                                    <th>Trạng thái lớp học phần <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Trạng thái: `Chờ Sinh Viên Đăng Ký` có thể hủy lớp. Trạng thái: `Chấp Nhận Mở Lớp` sẽ không thể hủy đăng ký. Trạng thái `Đã Khóa` sẽ không thể hủy đăng ký. Trạng thái sẽ cập nhật vào đúng thời điểm thông báo khóa hết hạn do khoa quy định!"></i></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tBodyUnitClassRegistered">
+                                <!-- Content rendered by JQuery -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        var semesterIdSelected = ""; // Global
+        var subjectIdSelected = ""; // Global
+        var subjectNameSelected = ""; // Global
+        var sectionClassIdSelected = ""; // Global
+        var sectionClassGroupIdSelected = "" // Global
+        var isFilterConflict = 0;
+        var isFilterStatus = 0;
+        $(document).ready(async function() {
+            // 01. Kiểm tra token
+            const jwtToken = window.sessionStorage.getItem('token');
+            console.log('jwtToken=', jwtToken);
+            if (!jwtToken || jwtToken == undefined || jwtToken == '') {
+                window.location.href = "../html/student-login.html";
+            }
+
+            // 02. Get student data & rendering embed var on page
+            const studentId = window.sessionStorage.getItem('studentId');
+            try {
+                const response = await fetch(`http://localhost:8080/student/findById/${studentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + jwtToken
+                    }
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const studentData = await response.json();
+                // Render spanName
+                $(".spanName").text(studentData.fullName);
+                $(".avatar").attr('src', studentData.avatar);
+                // Get list hoc ky
+                const reponseData = await fetch('http://localhost:8080/student/getSemesterSchools', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + jwtToken
+                    },
+                });
+                const semesterSchools = await reponseData.json();
+                semesterSchools.forEach(function(semesterSchool) {
+                    const option = document.createElement("option");
+                    option.value = semesterSchool.id; // Set giá trị của option
+                    option.textContent = "Học kỳ " + semesterSchool.stageSemester.split("_")[2] + " - " + semesterSchool.year; // Text hiển thị của option
+                    $("#selectSemesterSchool").append(option);
+                });
+                // return studentData;
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+
+            // 03. Listen Semester Change
+            $('#selectSemesterSchool').change(async function() {
+                const semesterId = $(this).val();
+                // Clear toàn bộ variable cache value
+                $("#tBodySubjects").html("");
+                $("#tBodySectionClasses").html("");
+                $("#tBodySectionClassesGroup").html("");
+                $("#tBodyUnitClassRegistered").html("");
+                semesterIdSelected = semesterId; // Gán biến global để lần sau dùng
+                subjectIdSelected = "";
+                subjectNameSelected = "";
+                sectionClassIdSelected = "";
+                sectionClassGroupIdSelected = "";
+                if(!semesterId) {
+                    return false;
+                }
+                const studentId = window.sessionStorage.getItem('studentId');
+                console.log('studentId=', studentId);
+                const customDTO = { semesterId, studentId };
+                try {
+                    const responseData = await fetch('http://localhost:8080/student/getSubjectBySemesterAndStudentMajor', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify(customDTO)
+                    });
+                    const subjects = await responseData.json();
+                    if(subjects.length <= 0) {// Không tìm thấy dữ liệu
+                        const row = document.createElement('tr');
+                        const emptyCell = document.createElement('td');
+                        emptyCell.colSpan = 7;
+                        emptyCell.textContent = '❌ Không tìm thấy bất cứ môn học nào được mở!'
+                        emptyCell.classList.add('text-center');
+                        emptyCell.classList.add('text-danger');
+                        emptyCell.classList.add('fw-bold');
+                        row.appendChild(emptyCell);
+                        $("#tBodySubjects").append(row);
+                        return false;
+                    }
+                    const tbody = document.getElementById('tBodySubjects');
+                    subjects.forEach((subject, index) => {
+                        const row = document.createElement('tr');
+                        const radioCell = document.createElement('td');
+                        const radioInput = document.createElement('input');
+                        radioInput.setAttribute('type', 'radio');
+                        radioInput.setAttribute('name', 'selectedSubject');
+                        radioInput.setAttribute('id', subject.subjectName);
+                        radioInput.setAttribute('value', subject.id);
+                        radioInput.classList.add('form-check-input');
+                        radioCell.appendChild(radioInput);
+                        const sttCell = document.createElement('td');
+                        sttCell.textContent = index + 1;
+                        const maHocPhanCell = document.createElement('td');
+                        maHocPhanCell.textContent = subject.id;
+                        const tenMonHocCell = document.createElement('td');
+                        tenMonHocCell.textContent = subject.subjectName;
+                        const soTinChiCell = document.createElement('td');
+                        soTinChiCell.textContent = subject.credits;
+                        const batBuocCell = document.createElement('td');
+                        batBuocCell.textContent = subject.subjectType === 'BAT_BUOC' ? 'Có' : 'Không';
+                        const yeuCauCell = document.createElement('td');
+                        yeuCauCell.textContent = subject.preRequiredSubjectId === 0 ? 'Không' : subject.preRequiredSubjectId;
+                        
+                        row.appendChild(radioCell);
+                        row.appendChild(sttCell);
+                        row.appendChild(maHocPhanCell);
+                        row.appendChild(tenMonHocCell);
+                        row.appendChild(soTinChiCell);
+                        row.appendChild(batBuocCell);
+                        row.appendChild(yeuCauCell);
+                        tbody.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('getSubjectBySemesterAndStudentMajor=', error);
+                    toastr.error(error.responseText, 'Lỗi');
+                }
+
+                // Fetch StudentRegistrationSectionClasses sau khi chọn semester
+                try {
+                    const studentId = window.sessionStorage.getItem('studentId');
+                    const responseData = await fetch('http://localhost:8080/student/getStudentRegistrationSectionClassesBySemester', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify({ studentId, semesterId })
+                    });
+                    const collections = await responseData.json();
+
+                    collections.forEach((registrationSectionClass, i) => {
+                        const row = document.createElement('tr');
+
+                        const sttCell = document.createElement('td');
+                        const sectionClassIdCell = document.createElement('td');
+                        const subjectNameCell = document.createElement('td');
+                        const sectionClassNamePresentCell = document.createElement('td');
+                        const creditCell = document.createElement('td');
+                        const classGroupNameCell = document.createElement('td');
+                        const debtCell = document.createElement('td');
+                        const expiredDateCell = document.createElement('td');
+                        const expiredDateDebtCell = document.createElement('td');
+                        const paidCell = document.createElement('td');
+                        const sectionClassTypeCell = document.createElement('td');
+                        const registerDateCell = document.createElement('td');
+                        const lockStatusCell = document.createElement('td');
+                        const actionCell = document.createElement('td');
+                        // See button
+                        const spectorButton = document.createElement('button');
+                        spectorButton.textContent = 'Xem';
+                        spectorButton.className = 'custom-button-4 me-2';
+                        const seeWithParameter = () => {
+                            spector(registrationSectionClass.registrationSectionClass.id); // Thay 'parameter' bằng giá trị tham số bạn muốn truyền vào
+                        };
+                        spectorButton.onclick = seeWithParameter;
+                        // Destroy button
+                        const destroyButton = document.createElement('button');
+                        destroyButton.textContent = 'Hủy';
+                        destroyButton.className = 'custom-button-3';
+                        const destroyWithParameter = () => {
+                            destroy(registrationSectionClass.registrationSectionClass.id); // Thay 'parameter' bằng giá trị tham số bạn muốn truyền vào
+                        };
+                        destroyButton.onclick = destroyWithParameter;
+                        
+                        actionCell.appendChild(spectorButton);
+                        actionCell.appendChild(destroyButton);
+
+                        sttCell.textContent = i + 1;
+                        sectionClassIdCell.textContent = registrationSectionClass.sectionClass.id;
+                        subjectNameCell.textContent = registrationSectionClass.subject.subjectName;
+                        sectionClassNamePresentCell.textContent = registrationSectionClass.sectionClass.sectionClassNamePresent;
+                        creditCell.textContent = registrationSectionClass.subject.credits;
+                        classGroupNameCell.textContent = translateEnumric(registrationSectionClass.registrationSectionClass.classGroupName);
+                        debtCell.textContent = formatVndNumber(registrationSectionClass.subject.credits * 850000);
+                        expiredDateCell.textContent = formatDate(registrationSectionClass.sectionClass.startDate);
+                        paidCell.textContent = formatVndNumber(registrationSectionClass.registrationSectionClass.paid);
+                        sectionClassTypeCell.textContent = translateEnumric(registrationSectionClass.sectionClass.sectionClassType);
+                        registerDateCell.textContent = formatDate(registrationSectionClass.registrationSectionClass.registerDate);
+                        lockStatusCell.textContent = translateEnumric(registrationSectionClass.sectionClass.lockStatus);
+                        
+                        row.appendChild(sttCell);
+                        row.appendChild(sectionClassIdCell);
+                        row.appendChild(subjectNameCell);
+                        row.appendChild(sectionClassNamePresentCell);
+                        row.appendChild(creditCell);
+                        row.appendChild(classGroupNameCell);
+                        row.appendChild(debtCell);
+                        row.appendChild(expiredDateCell);
+                        row.appendChild(paidCell);
+                        row.appendChild(sectionClassTypeCell);
+                        row.appendChild(registerDateCell);
+                        row.appendChild(lockStatusCell);
+                        row.appendChild(actionCell);
+
+                        const tBodyUnitClassRegistered = document.getElementById('tBodyUnitClassRegistered');
+                        tBodyUnitClassRegistered.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('getStudentRegistrationSectionClasses=', error);
+                    toastr.error(error.responseText, 'Lỗi');
+                }
+            });
+            
+            // 04. Listen Subject Choose
+            $("#FormSelectedSubject").change(async function() {//Chọn select maMonHoc sẽ render bảng giữa
+                const tBodySectionClasses = document.getElementById("tBodySectionClasses");
+                const tBodySectionClassesGroup = document.getElementById("tBodySectionClassesGroup");
+                // Clear cache value
+                tBodySectionClasses.innerHTML = '';
+                tBodySectionClassesGroup.innerHTML = '';
+                sectionClassIdSelected = "";
+                sectionClassGroupIdSelected = "";
+
+                const subjectId= $("input[name='selectedSubject']:checked").val();
+                const sujectName = $("input[name='selectedSubject']:checked").attr('id');
+                subjectNameSelected = sujectName; // Gán biến global để lần sau dùng
+                subjectIdSelected = subjectId; // Gán biến global để lần sau dùng
+                const customDTO = { subjectId: subjectId, semesterId: semesterIdSelected, studentId, isFilterConflict, isFilterStatus }; // Phải truyền thêm `studentId, isFilterConflict, isFilterStatus` để filter
+                try {
+                    const responseData = await fetch('http://localhost:8080/student/getSectionClassesBySubjectAndSemester', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify(customDTO)
+                    });
+                    const sectionClasses = await responseData.json();
+                    sectionClasses.forEach((sectionClass, index) => {
+                        // Cột radio
+                        const tr = document.createElement("tr");
+                        var radioTd = document.createElement("td");
+                        var radioInput = document.createElement("input");
+                        radioInput.setAttribute("type", "radio");
+                        radioInput.setAttribute("name", "selectedSectionClass");
+                        radioInput.setAttribute("value", sectionClass.id);
+                        radioInput.classList.add('form-check-input');
+                        radioTd.appendChild(radioInput);
+                        tr.appendChild(radioTd);
+
+                        // Cột STT
+                        const sttTd = document.createElement("td");
+                        sttTd.textContent = index + 1;
+                        sttTd.classList.add('text-center');
+                        tr.appendChild(sttTd);
+
+                        // Cột thông tin lớp học phần
+                        const infoTd = document.createElement("td");
+                        infoTd.innerHTML = "<span class='text-uppercase text-primary'><strong>" + subjectNameSelected + "</strong></span>" + "<br>" +
+                                        "<strong>Mã lớp học phần:</strong> " + sectionClass.id + "<br>" +
+                                        "<strong>Tên lớp đại diện:</strong> " + sectionClass.sectionClassNamePresent + "<br>" +
+                                        "<strong>Trạng thái LHP:</strong> " + translateEnumric(sectionClass.lockStatus);
+                        tr.appendChild(infoTd);
+
+                        // Cột đã đăng ký
+                        const registeredTd = document.createElement("td");
+                        registeredTd.textContent = `${sectionClass.registeredNumber}/${sectionClass.maxStudent}`;
+                        registeredTd.classList.add('text-center');
+                        tr.appendChild(registeredTd);
+
+                        // Thêm record vào tbody
+                        tBodySectionClasses.appendChild(tr);
+                    });
+                } catch (error) {
+                    console.error('getSectionClassesBySubjectAndSemester=', error);
+                    toastr.error(error.responseText, 'Lỗi');
+                }
+            });
+
+            // 05. Listen SectionClass Choose
+            $("#FormSelectedSectionClass").change(async function() {//Chọn select maMonHoc sẽ render bảng giữa
+                const sectionClassId = $("input[name='selectedSectionClass']:checked").val();
+                sectionClassIdSelected = sectionClassId; // Gán biến global để lần sau dùng
+                // Clear cache value
+                sectionClassGroupIdSelected = "";
+                try {
+                    const responseData = await fetch('http://localhost:8080/student/getSectionClassGroupBySectionClass', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify({ sectionClassId })
+                    });
+                    const sectionClassesGroup  = await responseData.json();
+                    
+                    const tBodySectionClassesGroup = document.getElementById('tBodySectionClassesGroup');
+                    tBodySectionClassesGroup.innerHTML = '';
+                    if(sectionClassesGroup.length <= 0 || sectionClassesGroup[0].timeTables.length <= 0) {
+                        const row = document.createElement('tr');
+                        const emptyCell = document.createElement('td');
+                        emptyCell.colSpan = 4;
+                        emptyCell.textContent = '❌ LHP đang lên kế hoạch sớm!'
+                        emptyCell.classList.add('text-center');
+                        emptyCell.classList.add('text-danger');
+                        emptyCell.classList.add('fw-bold');
+                        row.appendChild(emptyCell);
+                        tBodySectionClassesGroup.appendChild(row);
+                        return false;
+                    }
+                    
+                    sectionClassesGroup.forEach(sectionClassGroup => {
+                        const row = document.createElement('tr');
+
+                        // Radio cell
+                        const radioCell = document.createElement('td');
+                        var radioInput = document.createElement("input");
+                        radioInput.setAttribute("type", "radio");
+                        radioInput.setAttribute("name", "selectedSectionClassGroup");
+                        radioInput.setAttribute("value", sectionClassGroup.sectionClassGroup.id);
+                        radioInput.classList.add('form-check-input');
+                        radioCell.appendChild(radioInput);
+
+                        // Timetable cell
+                        const timetableCell = document.createElement('td');
+                        const timetableList = document.createElement('ul');
+                        const infoCell = document.createElement('td');// Tạo ra các li info song song với list timeTables để render GV.
+                        const infoList = document.createElement('ul');
+
+                        if(sectionClassGroup.timeTables.length <= 0) {// Kiểm tra timeTables của sectionClassGroup đó
+                            const timetableItem = document.createElement('li');
+                            timetableItem.textContent = 'Đang lên kế hoạch Thời khóa biểu';
+                            timetableList.appendChild(timetableItem);
+                        } else {
+                            sectionClassGroup.timeTables.forEach(timetable => {
+                                // Cột timeTable
+                                const timetableItem = document.createElement('li');
+                                timetableItem.innerHTML = 
+                                    `<span class='d-block'>Lịch học: <b>${translateEnumric(timetable.timeTable.lessionType)}</b></span>`
+                                    + `<span class='d-block'>Tiết học: <b>Thứ ${timetable.timeTable.lessionDay}, Tiết ${timetable.timeTable.startLessionTime}-${timetable.timeTable.endLessionTime}</b></span>` 
+                                    + `<span class='d-block'>Phòng học: <b>${timetable.timeTable.room}</b></span>`;
+                                timetableList.appendChild(timetableItem);
+
+                                // Cột info
+                                const teacherInfoItem = document.createElement('li');
+                                teacherInfoItem.innerHTML = `<span class='d-block'>G.V ${translateEnumric(timetable.timeTable.lessionType)}: <b>Th.S ${timetable.teacher.fullName}</b></span>`;
+                                infoList.appendChild(teacherInfoItem);
+                            });
+                        }
+                        timetableCell.appendChild(timetableList);
+                            // Bổ sung cột info thêm li ngày bắt đầu & số lượng đã dk
+                        const startDateAndEndDateInfoItem = document.createElement('li');
+                        startDateAndEndDateInfoItem.innerHTML = `<span class='d-block'>Bắt đầu học: <b>${formatDate(sectionClassGroup.sectionClass.startDate)} - ${formatDate(sectionClassGroup.sectionClass.endDate)}</b></span>`;
+                        infoList.appendChild(startDateAndEndDateInfoItem)
+                        const registeredNumberInfoItem = document.createElement('li');
+                        registeredNumberInfoItem.innerHTML = `<span class='d-block'>Số lượng: <b>${sectionClassGroup.registeredNumber}/${sectionClassGroup.sectionClassGroup.maxStudent}</b></span>`;
+                        infoList.appendChild(registeredNumberInfoItem);
+                        infoCell.appendChild(infoList);
+
+                        // Group cell
+                        const groupCell = document.createElement('td');
+                        groupCell.textContent = translateEnumric(translateEnumric(sectionClassGroup.sectionClassGroup.classGroupName));
+                        groupCell.classList.add('text-center');
+
+                        row.appendChild(radioCell);
+                        row.appendChild(timetableCell);
+                        row.appendChild(groupCell);
+                        row.appendChild(infoCell);
+
+                        tBodySectionClassesGroup.appendChild(row);
+                    });
+                } catch (error) {
+                    console.error('getSectionClassGroupBySectionClass=', error);
+                    toastr.error(error.responseText, 'Lỗi');
+                }
+
+                // Change spanSectionClassStatus
+                const responseData = await fetch(`http://localhost:8080/student/getSectionClassById/${sectionClassId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + jwtToken
+                    },
+                });
+                const secionClass  = await responseData.json();
+                const lockStatus = secionClass.lockStatus;
+                if(lockStatus == 'DANG_CHO_SINH_VIEN_DANG_KY') {
+                    $("#spanSectionClassStatus").removeClass('text-danger');
+                    $("#spanSectionClassStatus").addClass('text-success');
+                } else {
+                    $("#spanSectionClassStatus").removeClass('text-success');
+                    $("#spanSectionClassStatus").addClass('text-danger');
+                }
+                $("#spanSectionClassStatus").text(translateEnumric(lockStatus));
+            });
+
+            // 06. Listen SectionClassGroup Choose
+            $("#FormSelectedSectionClassGroup").change(async function() {
+                const sectionClassGroupId = $("input[name='selectedSectionClassGroup']:checked").val();
+                sectionClassGroupIdSelected = sectionClassGroupId; // Gán biến global để lần sau dùng
+            });
+
+            // 07. Listen CheckBox Checked or UnChecked
+            $("#showSectionClassNonInterrupt").change(async function(){
+                if($(this).is(":checked"))
+                    isFilterConflict = 1;
+                else isFilterConflict = 0;
+
+                if(subjectIdSelected) { // Nếu đã chọn subjectId nào đó thì gọi lại api get SectiClassGroup để render lại giao diện
+                    $("#tBodySectionClasses").html("");
+                    $("#tBodySectionClassesGroup").html("");
+                    sectionClassIdSelected = "";
+                    sectionClassGroupIdSelected = "";
+                    const jwtToken = window.sessionStorage.getItem('token');
+                    const studentId = window.sessionStorage.getItem('studentId');
+                    const response = await fetch(`http://localhost:8080/student/getSectionClassFilterPineline`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify({ studentId, sectionClassGroupId: sectionClassGroupIdSelected, semesterId: semesterIdSelected, subjectId: subjectIdSelected, isFilterConflict, isFilterStatus })
+                    });
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText);
+                    }
+                    const sectionClasses = await response.json();
+                    console.log('sectionClasses=', sectionClasses);
+                    sectionClasses.forEach((sectionClass, index) => {
+                        // Cột radio
+                        const tr = document.createElement("tr");
+                        var radioTd = document.createElement("td");
+                        var radioInput = document.createElement("input");
+                        radioInput.setAttribute("type", "radio");
+                        radioInput.setAttribute("name", "selectedSectionClass");
+                        radioInput.setAttribute("value", sectionClass.id);
+                        radioInput.classList.add('form-check-input');
+                        radioTd.appendChild(radioInput);
+                        tr.appendChild(radioTd);
+
+                        // Cột STT
+                        const sttTd = document.createElement("td");
+                        sttTd.textContent = index + 1;
+                        sttTd.classList.add('text-center');
+                        tr.appendChild(sttTd);
+
+                        // Cột thông tin lớp học phần
+                        const infoTd = document.createElement("td");
+                        infoTd.innerHTML = "<span class='text-uppercase text-primary'><strong>" + subjectNameSelected + "</strong></span>" + "<br>" +
+                                        "<strong>Mã lớp học phần:</strong> " + sectionClass.id + "<br>" +
+                                        "<strong>Tên lớp đại diện:</strong> " + sectionClass.sectionClassNamePresent + "<br>" +
+                                        "<strong>Trạng thái LHP:</strong> " + translateEnumric(sectionClass.lockStatus);
+                        tr.appendChild(infoTd);
+
+                        // Cột đã đăng ký
+                        const registeredTd = document.createElement("td");
+                        registeredTd.textContent = `${sectionClass.registeredNumber}/${sectionClass.maxStudent}`;
+                        registeredTd.classList.add('text-center');
+                        tr.appendChild(registeredTd);
+
+                        // Thêm record vào tbody
+                        tBodySectionClasses.appendChild(tr);
+                    });
+                }
+            });
+
+            $("#showSectionClassNonLock").change(async function(){
+                if($(this).is(":checked"))
+                    isFilterStatus = 1;
+                else isFilterStatus = 0;
+
+                if(subjectIdSelected) { // Nếu đã chọn subjectId nào đó thì gọi lại api get SectiClassGroup để render lại giao diện
+                    $("#tBodySectionClasses").html("");
+                    $("#tBodySectionClassesGroup").html("");
+                    sectionClassIdSelected = "";
+                    sectionClassGroupIdSelected = "";
+                    const jwtToken = window.sessionStorage.getItem('token');
+                    const studentId = window.sessionStorage.getItem('studentId');
+                    const response = await fetch(`http://localhost:8080/student/getSectionClassFilterPineline`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify({ studentId, sectionClassGroupId: sectionClassGroupIdSelected, semesterId: semesterIdSelected, subjectId: subjectIdSelected, isFilterConflict, isFilterStatus })
+                    });
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText);
+                    }
+                    const sectionClasses = await response.json();
+                    console.log('sectionClasses=', sectionClasses);
+                    sectionClasses.forEach((sectionClass, index) => {
+                        // Cột radio
+                        const tr = document.createElement("tr");
+                        var radioTd = document.createElement("td");
+                        var radioInput = document.createElement("input");
+                        radioInput.setAttribute("type", "radio");
+                        radioInput.setAttribute("name", "selectedSectionClass");
+                        radioInput.setAttribute("value", sectionClass.id);
+                        radioInput.classList.add('form-check-input');
+                        radioTd.appendChild(radioInput);
+                        tr.appendChild(radioTd);
+
+                        // Cột STT
+                        const sttTd = document.createElement("td");
+                        sttTd.textContent = index + 1;
+                        sttTd.classList.add('text-center');
+                        tr.appendChild(sttTd);
+
+                        // Cột thông tin lớp học phần
+                        const infoTd = document.createElement("td");
+                        infoTd.innerHTML = "<span class='text-uppercase text-primary'><strong>" + subjectNameSelected + "</strong></span>" + "<br>" +
+                                        "<strong>Mã lớp học phần:</strong> " + sectionClass.id + "<br>" +
+                                        "<strong>Tên lớp đại diện:</strong> " + sectionClass.sectionClassNamePresent + "<br>" +
+                                        "<strong>Trạng thái LHP:</strong> " + translateEnumric(sectionClass.lockStatus);
+                        tr.appendChild(infoTd);
+
+                        // Cột đã đăng ký
+                        const registeredTd = document.createElement("td");
+                        registeredTd.textContent = `${sectionClass.registeredNumber}/${sectionClass.maxStudent}`;
+                        registeredTd.classList.add('text-center');
+                        tr.appendChild(registeredTd);
+
+                        // Thêm record vào tbody
+                        tBodySectionClasses.appendChild(tr);
+                    });
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        async function interruptTimeTableModal() {
+            if(!sectionClassIdSelected) {
+                return false;
+            }
+            const tBodyMyDuplicate = document.getElementById('tBodyMyDuplicate');
+            const tBodySystemDuplicate = document.getElementById('tBodySystemDuplicate');
+            tBodyMyDuplicate.innerHTML = '';
+            tBodySystemDuplicate.innerHTML = '';
+            $("#interruptTimeTableModal").modal('toggle');
+            const customDTO = { sectionClassId: sectionClassIdSelected, studentId: window.sessionStorage.getItem('studentId'), semesterId: semesterIdSelected };
+            const jwtToken = window.sessionStorage.getItem('token');
+            const responseData = await fetch('http://localhost:8080/student/getInterruptTimeTablesBySectionClass', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+                body: JSON.stringify(customDTO)
+            });
+            const collections = await responseData.json();
+            collections.forEach((pairOfConflictObject, i) => {
+                const randomColor = getRandomColor();
+                const myRow = document.createElement('tr');
+
+                const mySttCell = document.createElement('td');
+                const mySectionClassIdCell = document.createElement('td');
+                const myPresentClassNameCell = document.createElement('td');
+                const myConflictSubjectNameCell = document.createElement('td');
+                const myDayCell = document.createElement('td');
+                const myStartLessionTimeCell = document.createElement('td');
+                const myEndLessionTimeCell = document.createElement('td');
+
+                mySttCell.textContent = i + 1;
+                mySectionClassIdCell.textContent = pairOfConflictObject.studentConflictObject.sectionClass.id;
+                myPresentClassNameCell.textContent = pairOfConflictObject.studentConflictObject.sectionClass.sectionClassNamePresent;
+                myConflictSubjectNameCell.textContent = pairOfConflictObject.studentConflictObject.subject.subjectName;
+                myDayCell.textContent = pairOfConflictObject.studentConflictObject.timeTable.lessionDay;
+                myStartLessionTimeCell.textContent = pairOfConflictObject.studentConflictObject.timeTable.startLessionTime;
+                myEndLessionTimeCell.textContent = pairOfConflictObject.studentConflictObject.timeTable.endLessionTime;
+                myDayCell.style.backgroundColor = randomColor;
+                myStartLessionTimeCell.style.backgroundColor = randomColor;
+                myEndLessionTimeCell.style.backgroundColor = randomColor;
+                myDayCell.style.color = 'white';
+                myStartLessionTimeCell.style.color = 'white';
+                myEndLessionTimeCell.style.color = 'white';
+
+
+                myRow.appendChild(mySttCell);
+                myRow.appendChild(mySectionClassIdCell);
+                myRow.appendChild(myPresentClassNameCell);
+                myRow.appendChild(myConflictSubjectNameCell);
+                myRow.appendChild(myDayCell);
+                myRow.appendChild(myStartLessionTimeCell);
+                myRow.appendChild(myEndLessionTimeCell);
+
+                const systemRow = document.createElement('tr');
+
+                const systemSttCell = document.createElement('td');
+                const systemSectionClassIdCell = document.createElement('td');
+                const systemPresentClassNameCell = document.createElement('td');
+                const systemConflictSubjectNameCell = document.createElement('td');
+                const systemDayCell = document.createElement('td');
+                const systemStartLessionTimeCell = document.createElement('td');
+                const systemEndLessionTimeCell = document.createElement('td');
+
+                systemDayCell.style.backgroundColor = randomColor;
+                systemStartLessionTimeCell.style.backgroundColor = randomColor;
+                systemEndLessionTimeCell.style.backgroundColor = randomColor;
+                systemDayCell.style.color = 'white';
+                systemStartLessionTimeCell.style.color = 'white';
+                systemEndLessionTimeCell.style.color = 'white';
+
+                systemSttCell.textContent = i + 1;
+                systemSectionClassIdCell.textContent = pairOfConflictObject.sectionClassConflictObject.sectionClass.id;
+                systemPresentClassNameCell.textContent = pairOfConflictObject.sectionClassConflictObject.sectionClass.sectionClassNamePresent;
+                systemConflictSubjectNameCell.textContent = pairOfConflictObject.sectionClassConflictObject.subject.subjectName;
+                systemDayCell.textContent = pairOfConflictObject.sectionClassConflictObject.timeTable.lessionDay;
+                systemStartLessionTimeCell.textContent = pairOfConflictObject.sectionClassConflictObject.timeTable.startLessionTime;
+                systemEndLessionTimeCell.textContent = pairOfConflictObject.sectionClassConflictObject.timeTable.endLessionTime;
+
+                systemRow.appendChild(systemSttCell);
+                systemRow.appendChild(systemSectionClassIdCell);
+                systemRow.appendChild(systemPresentClassNameCell);
+                systemRow.appendChild(systemConflictSubjectNameCell);
+                systemRow.appendChild(systemDayCell);
+                systemRow.appendChild(systemStartLessionTimeCell);
+                systemRow.appendChild(systemEndLessionTimeCell);
+
+                tBodyMyDuplicate.appendChild(myRow);
+                tBodySystemDuplicate.appendChild(systemRow);
+
+            });
+        }
+
+        async function register() {
+            if (!confirm(`Bạn có chắc chắc muốn đăng ký lớp học phần mã nhóm: ${sectionClassGroupIdSelected}?`) == true) {
+                return;
+            }
+            if(!sectionClassGroupIdSelected) {
+                swal({ title: 'Lỗi', text: 'Vui lòng chọn nhóm học phần muốn đăng ký.', icon: 'error'});
+                return;
+            }
+
+            try {
+                const jwtToken = window.sessionStorage.getItem('token');
+                const studentId = window.sessionStorage.getItem('studentId');
+                const response = await fetch(`http://localhost:8080/student/registerRegistrationSectionClass`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": 'application/json',
+                        'Authorization': 'Bearer ' + jwtToken
+                    },
+                    body: JSON.stringify({ studentId, sectionClassGroupId: sectionClassGroupIdSelected, semesterId: semesterIdSelected })
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
+                const data = await response.json();
+                console.log('data=', data);
+                /// thông báo thành công here và tải lại trang....
+                swal({
+                    title: 'Đăng ký',
+                    text: 'Nhóm học phần thành công',
+                    icon: 'success',
+                }).then((value) => {
+                    if(value) window.location.href = "./student-section-class.html";
+                });
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+        }
+
+        async function spector(registrationSectionClassId) {
+            const jwtToken = window.sessionStorage.getItem('token');
+            const studentId = window.sessionStorage.getItem('studentId');
+            const response = await fetch(`http://localhost:8080/student/getStudentRegistrationSectionClass`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json',
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+                body: JSON.stringify({ registrationSectionClassId })
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText);
+            }
+            const registrationSectionClass = await response.json();
+            let outCustomElement1 = ""; // Để chứa loop lịch học
+            let outCustomElement2 = ""; // Để chứa loop phòng học
+            const timeTables = registrationSectionClass.sectionClassGroup.timeTables;
+            timeTables.forEach(timeTable => {
+                outCustomElement1 += `
+                    <div>${translateEnumric(timeTable.lessionType)}: Thứ ${timeTable.lessionDay.substring(1)} - Tiết ${timeTable.startLessionTime.substring(1)}-${timeTable.endLessionTime.substring(1)}</div>
+                `;
+                outCustomElement2 += `
+                <div>${timeTable.room}</div>
+                `;
+            });
+            const htmlContent = `
+            <tr>
+                <td>1</td>
+                <td>${outCustomElement1}</td>
+                <td>${translateEnumric(registrationSectionClass.sectionClassGroup.classGroupName)}</td>
+                <td>${outCustomElement2}</td>
+                <td></td>
+                <td>TH.S ${registrationSectionClass.teacher.fullName}</td>
+                <td>${formatDate(registrationSectionClass.sectionClass.startDate)} - ${formatDate(registrationSectionClass.sectionClass.endDate)}</td>
+            </tr>
+            `;
+            $("#tBodySpectorRegistrationSectionClass").html(htmlContent);
+            $("#spectorModal").modal('toggle');
+        }
+
+        async function destroy(registrationSectionClassId) {
+            if (confirm(`Bạn có chắc chắn muốn hủy đăng ký học phần?`) != true) {
+                return;
+            }
+            try {
+                const jwtToken = window.sessionStorage.getItem('token');
+                const responseData = await fetch(`http://localhost:8080/student/destroyRegistration/${registrationSectionClassId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            "Content-Type": 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                    });
+                if (!responseData.ok) {
+                    const errorText = await responseData.text();
+                    throw new Error(errorText);
+                }
+                const isDestroySuccess = await responseData.ok;
+                if(isDestroySuccess) {
+                    swal({ title: 'Hủy đăng ký', text: 'Lớp học phần thành công', icon: 'success' }).then((value) => {
+                        if(value) {
+                            window.location.href = "./student-section-class.html";
+                        }
+                    })
+                }
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.message, 'Lỗi');
+                throw error;
+            }
+        }
+
+        function getRandomColor() {
+            // Mảng chứa các màu trong dải màu cam hoặc màu đỏ
+            const colors = [
+                '#FFA500', // Cam
+                '#FF6347', // Đỏ đậm
+                '#DC143C', // Crimson
+                '#FF0000', // Đỏ
+                '#B22222', // Lửa đỏ
+                '#8B0000',  // Đỏ đậm hơn
+                '#f74205',
+                '#a32a02',
+                '#fc5d28',
+                '#fc2833',
+                '#db0914',
+                '#8c040b',
+                '#a32e34',
+                '#b31b23',
+                // Bạn có thể thêm các màu sắc khác vào đây
+            ];
+            // Chọn ngẫu nhiên một màu từ mảng
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            // Trả về màu ngẫu nhiên được chọn
+            return colors[randomIndex];
+        }
+        function translateEnumric(keyString) {
+            const databases = {
+                "DANG_CHO_SINH_VIEN_DANG_KY": "Đang chờ sinh viên đăng ký",
+                "CHAP_NHAN_MO_LOP": "Chấp nhận mở lớp ⚠️",
+                "DA_KHOA": "Đã khóa ⛔",
+                "LY_THUYET": "Lý Thuyết 📖",
+                "THUC_HANH": "Thực Hành 🛠️",
+                "NHOM_1": "Nhóm 1",
+                "NHOM_2": "Nhóm 2",
+                "NHOM_3": "Nhóm 3",
+                "KHONG_PHAN_NHOM": "Không phân nhóm",
+                "HOC_MOI": "Học mới",
+                "HOC_LAI": "Học lại",
+                "HOC_CAI_THIEN": "Học cải thiện",
+            };
+            if (databases[keyString]) {
+                return databases[keyString];
+            } else {
+                return keyString;
+            }
+        }
+
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            let ngay = date.getDate();
+            let thang = date.getMonth() + 1; // Vì tháng bắt đầu từ 0
+            let nam = date.getFullYear();
+            ngay = ngay < 10 ? '0' + ngay : ngay;
+            thang = thang < 10 ? '0' + thang : thang;
+            return ngay + '/' + thang + '/' + nam;
+        }
+
+        function formatVndNumber(number) {
+            return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+
+        function logout() {
+            window.sessionStorage.clear();
+            window.sessionStorage.removeItem('mssv');
+            window.sessionStorage.removeItem('studentId');
+            window.sessionStorage.removeItem('token');
+            window.location.href = "./student-login.html";
+        }
+    </script>
+</body>
+<!-- Xem Lịch Trùng modal -->
+<div class="modal" id="interruptTimeTableModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <p class="modal-title">Danh sách LHP/Thời Khóa Biểu trùng lịch:</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body table-responsive small">
+                <label for="myTable">Trùng lịch của bạn:</label>
+                <table class="table table-bordered table-striped table-hover text-nowrap" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã lớp học phần</th>
+                            <th>Lớp đại diện</th>
+                            <th>Tên môn bị trùng</th>
+                            <th>Thứ</th>
+                            <th>Từ tiết</th>
+                            <th>Đến tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodyMyDuplicate">
+                    </tbody>
+                </table>
+                <label for="myTable">Trùng lịch vừa chọn:</label>
+                <table class="table table-bordered table-striped table-hover text-nowrap" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã lớp học phần</th>
+                            <th>Lớp đại diện</th>
+                            <th>Tên môn bị trùng</th>
+                            <th>Thứ</th>
+                            <th>Từ tiết</th>
+                            <th>Đến tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodySystemDuplicate">
+                        <!-- Render By AJax -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng lại</button>
+            </div>
+            </div>
+    </div>
+</div>
+<!-- Xem Môn Đã Đăng Ký (spector) -->
+<div class="modal" id="spectorModal">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <p class="modal-title">Chi tiết lớp học:</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body table-responsive small">
+                <table class="table table-bordered table-striped table-hover text-nowrap text-center">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Lịch học</th>
+                            <th>Nhóm <i class="fas fa-question-circle text-primary" data-bs-toggle="tooltip" title="Nếu lịch học là 'THỰC HÀNH (TH)' thì sẽ phân theo nhóm học thường là `1` hoặc `2`. Lý do vì nếu không phân nhóm sẽ không đủ thiết bị thực hành cho một lớp học đông. Còn lịch 'LÝ THUYẾT (LT)' thường không phân nhóm (0)."></i></th>
+                            <th>Phòng học</th>
+                            <th>Dãy nhà</th>
+                            <th>Giảng viên</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodySpectorRegistrationSectionClass">
+                        <!-- Render By JQuery -->
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div>Lý thuyết: Thứ 2 - Tiết 1-3</div>
+                                <div>Thực hành: Thứ 2 - Tiết 7-9</div>
+                            </td>
+                            <td>Nhóm 1</td>
+                            <td>A2.01</td>
+                            <td></td>
+                            <td>TH.S Lê Thị A</td>
+                            <td>04/04/2024 - 30/10/2024</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

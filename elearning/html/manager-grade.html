@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELearning</title>
+    <!-- boostrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/ad778f42b3.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- toastr -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/manager-section-class.css">
+    <!-- select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <style>
+        .select2-selection__rendered {
+          line-height: 28px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row" style="height: 100vh;">
+            <div class="col-lg-2 border-end p-3">
+                <div class="my-1">
+                    <button class="myButton3" onclick="window.location.href=('./manager-home.html');">Home</button>
+                </div>
+                <div class="my-1">
+                    <button class="myButton2">Quản lý LHP</button>
+                </div>
+                <div class="mt-2">
+                    <button class="myButton3" onclick="window.location.href=('./manager-time-table.html');">Quản lý TKB</button>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div class="d-flex my-3">
+                    <a href="./manager-home.html">Home</a>
+                    <div>&emsp;>&emsp;</div>
+                    <a href="./manager-section-class.html">Section class</a>
+                    <div>&emsp;>&emsp;</div>
+                    <a href="javascript:void(0);">Create new</a>
+                </div>
+                <form id="FormSectionClass" method="post">
+                    <div>
+                        <label for="">Tên lớp đại diện</label>
+                        <input type="text" name="sectionClassNamePresent" placeholder="Nhập tên lớp đại diện.." >
+                    </div>
+                    <div>
+                        <label for="">Số lượng sinh viên</label>
+                        <input type="text" name="maxStudent" placeholder="Nhập số lượng sinh viên tối đa.." >
+                    </div>
+                    <div>
+                        <label for="">Ngày bắt đầu</label>
+                        <input type="date" name="startDate" placeholder="Nhập số lượng sinh viên tối đa.." >
+                    </div>
+                    <div>
+                        <label for="">Ngày kết thúc</label>
+                        <input type="date" name="endDate" placeholder="Nhập ngày kết thúc.." >
+                    </div>
+                    <div>
+                        <label for="">Mã môn học</label>
+                        <select name="subjectId" class="js-example-subject-select2-single">
+                            <option value="" selected>Vui lòng chọn mã môn học</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Mã giáo viên</label>
+                        <select name="teacherId" class="js-example-teacher-select2-single">
+                            <option value="" selected>Vui lòng chọn mã giáo viên</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Mã học kỳ</label>
+                        <select name="semesterSchoolId" class="js-example-semester-select2-single">
+                            <option value="" selected>Vui lòng chọn mã học kì</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Phân nhóm</label>
+                        <select name="groups">
+                            <option value="0">Không phân nhóm</option>
+                            <option value="2">Chia làm 2 nhóm</option>
+                            <option value="3">Chia làm 3 nhóm</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sectionClassType">Trạng thái LHP</label>
+                        <select name="sectionClassType" id="sectionClassType">
+                            <option value="HOC_MOI" selected>Học mới</option>
+                            <option value="HOC_LAI">Học lại</option>
+                            <option value="HOC_CAI_THIEN">Học cải thiện</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="">Trạng thái LHP</label>
+                        <select name="lockStatus">
+                            <option value="DANG_CHO_SINH_VIEN_DANG_KY">Đang chờ SV đăng ký</option>
+                            <option value="CHAP_NHAN_MO_LOP">Chấp nhận mở lớp</option>
+                            <option value="DA_KHOA">Đã khóa</option>
+                        </select>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btnSubmit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var jwtToken;
+        initSkeleton();
+
+        async function initSkeleton() {
+            validateSessionLogin();
+            await setSubjectSeclection(); // Lấy ra list subjects & render
+            await setTeacherSelection(); // Lấy ra list teachers & render
+            await setSemesterSchoolSelection(); // Lấy ra list semesterSchools & render
+        }
+
+        function validateSessionLogin() {
+            jwtToken = window.sessionStorage.getItem('token');
+            if (!jwtToken || jwtToken == undefined || jwtToken == '') {
+                window.location.href = "./manager-login.html";
+            }
+        }
+
+        async function setSubjectSeclection() {
+            try {
+                const response = await fetch(`http://localhost:8080/manager/subject/list`, {// Get Subjects
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                });
+                const subjects = await response.json();
+                $('.js-example-subject-select2-single').select2({
+                    placeholder: "Chọn môn học mở LHP",
+                    allowClear: true,
+                    data: subjects.map(function(subject) {
+                        return {
+                            id: subject.id,
+                            text: subject.id + ' - ' + subject.subjectName
+                        };
+                    }),
+                });
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.responseText, 'Lỗi');
+            }
+        }
+
+        async function setTeacherSelection() {
+            try {
+                const response = await fetch(`http://localhost:8080/manager/teacher/list`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                });
+                const teachers = await response.json();
+                $('.js-example-teacher-select2-single').select2({
+                    placeholder: "Chọn giáo viên dạy LHP",
+                    allowClear: true,
+                    data: teachers.map(function(teacher) {
+                        return {
+                            id: teacher.id,
+                            text: teacher.id + ' - ' + teacher.fullName
+                        };
+                    }),
+                });
+                const response3 = await fetch(`http://localhost:8080/manager/semesterSchool/list`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                });
+                const semesterSchools = await response3.json();
+                $('.js-example-semester-select2-single').select2({
+                    placeholder: "Chọn mã học kì mở LHP",
+                    allowClear: true,
+                    data: semesterSchools.map(function(semesterSchool) {
+                        return {
+                            id: semesterSchool.id,
+                            text: semesterSchool.id + ' - ' + translateEnumric(semesterSchool.stageSemester)
+                        };
+                    }),
+                });
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.responseText, 'Lỗi');
+            }
+        }
+
+        async function setSemesterSchoolSelection() {
+            try {
+                const response = await fetch(`http://localhost:8080/manager/semesterSchool/list`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                });
+                const semesterSchools = await response.json();
+                $('.js-example-semester-select2-single').select2({
+                    placeholder: "Chọn mã học kì mở LHP",
+                    allowClear: true,
+                    data: semesterSchools.map(function(semesterSchool) {
+                        return {
+                            id: semesterSchool.id,
+                            text: semesterSchool.id + ' - ' + translateEnumric(semesterSchool.stageSemester)
+                        };
+                    }),
+                });
+            } catch (error) {
+                console.error('error=', error);
+                toastr.error(error.responseText, 'Lỗi');
+            }
+        }
+
+        $(document).ready(function(){
+            // 01. Listen Form Submit
+            $("#FormSectionClass").submit(async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                console.log('formData=', formData);
+                const sectionClassNamePresent = formData.get('sectionClassNamePresent');
+                const maxStudent = formData.get('maxStudent');
+                const startDate = formData.get('startDate');
+                const endDate = formData.get('endDate');
+                const subjectId = formData.get('subjectId');
+                const teacherId = formData.get('teacherId');
+                const semesterSchoolId = formData.get('semesterSchoolId');
+                const groups = formData.get('groups');
+                const sectionClassType = formData.get('sectionClassType');
+                const lockStatus = formData.get('lockStatus');
+
+                // Pineline data
+                const sectionClassDTO = {
+                    sectionClassNamePresent,
+                    maxStudent,
+                    startDate,
+                    endDate,
+                    subjectId,
+                    teacherId,
+                    semesterSchoolId,
+                    groups,
+                    sectionClassType,
+                    lockStatus,
+                };
+                try {
+                    const response = await fetch(`http://localhost:8080/manager/sectionClass/save`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${jwtToken}`,
+                        },
+                        body: JSON.stringify(sectionClassDTO)
+                    });
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText);
+                    }
+                    const data = await response.json();
+                    console.log('data=', data);
+                    toastr.success(response.status, 'Thành công');
+                } catch (error) {
+                    console.error('error=', error);
+                    toastr.error(error.responseText, 'Lỗi');
+                }
+            });
+        });
+
+        function translateEnumric(keyString) {
+            const databases = {
+                "DANG_CHO_SINH_VIEN_DANG_KY": "Đang chờ sinh viên đăng ký",
+                "CHAP_NHAN_MO_LOP": "Chấp nhận mở lớp ⚠️",
+                "DA_KHOA": "Đã khóa ⛔",
+                "LY_THUYET": "Lý Thuyết 📖",
+                "THUC_HANH": "Thực Hành 🛠️",
+                "NHOM_1": "Nhóm 1",
+                "NHOM_2": "Nhóm 2",
+                "NHOM_3": "Nhóm 3",
+                "KHONG_PHAN_NHOM": "Không phân nhóm",
+                "HOC_MOI": "Học mới",
+                "HOC_LAI": "Học lại",
+                "HOC_CAI_THIEN": "Học cải thiện",
+                "HOC_KY_1": "Học kỳ 1",
+                "HOC_KY_2": "Học kỳ 2",
+                "HOC_KY_3": "Học kỳ 3",
+            };
+            if (databases[keyString]) {
+                return databases[keyString];
+            } else {
+                return keyString;
+            }
+        }
+
+        function getMondayAndSundayDates(currentDate) {
+            // Lấy ngày của tuần
+            var dayOfWeek = currentDate.getDay();
+            
+            // Tính toán ngày của thứ 2 (ngày bắt đầu của tuần)
+            var mondayDate = new Date(currentDate);
+            mondayDate.setDate(currentDate.getDate() - (dayOfWeek - 1));
+            
+            // Tính toán ngày của chủ nhật (ngày cuối của tuần)
+            var sundayDate = new Date(currentDate);
+            sundayDate.setDate(currentDate.getDate() + (7 - dayOfWeek));
+            
+            // In ra kết quả
+            console.log('Monday Date:', mondayDate.toLocaleDateString());
+            console.log('Sunday Date:', sundayDate.toLocaleDateString());
+        }
+        // Lấy thời gian hiện tại
+        var currentDate = new Date('2020-01-01');
+
+        // Gọi hàm với thời gian hiện tại
+        getMondayAndSundayDates(currentDate);
+    </script>
+</body>
+</html>
