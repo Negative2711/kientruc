@@ -75,13 +75,13 @@
                             <thead id="DivTimeTableHead" class="text-center">
                                 <tr>
                                     <th>Buổi</th>
-                                    <th>Thứ 2</th>
-                                    <th>Thứ 3</th>
-                                    <th>Thứ 4</th>
-                                    <th>Thứ 5</th>
-                                    <th>Thứ 6</th>
-                                    <th>Thứ 7</th>
-                                    <th>Chủ nhật</th>
+                                    <th>Thứ 2 <br> 22/04/2024</th>
+                                    <th>Thứ 3 <br> 23/04/2024</th>
+                                    <th>Thứ 4 <br> 24/04/2024</th>
+                                    <th>Thứ 5 <br> 25/04/2024</th>
+                                    <th>Thứ 6 <br> 26/04/2024</th>
+                                    <th>Thứ 7 <br> 27/04/2024</th>
+                                    <th>Chủ nhật <br> 28/04/2024</th>
                                 </tr>
                             </thead>
                             <tbody id="DivTimeTableBody">
@@ -201,6 +201,9 @@
             // In ra kết quả
             console.log('Monday Date:', mondayDate.toLocaleDateString());
             console.log('Sunday Date:', sundayDate.toLocaleDateString());
+            renderHeaderTable(mondayDate, sundayDate);
+
+
             const response = await fetch(`http://localhost:8080/student/getTimeTablesByMonAndSun`, {
                 method: 'POST',
                 headers: {
@@ -215,7 +218,7 @@
             }
             const timeTables = await response.json();
             console.log('timeTables=', timeTables);
-            renderTimeTable(timeTables);
+            renderBodyTable(timeTables);
 
             // 03. Listen theDate Change
             $("#theDate").change(async function() {
@@ -230,6 +233,9 @@
                 // In ra kết quả
                 console.log('Monday Date:', newMondayDate.toLocaleDateString());
                 console.log('Sunday Date:', newSundayDate.toLocaleDateString());
+                renderHeaderTable(newMondayDate, newSundayDate);
+
+
                 const response = await fetch(`http://localhost:8080/student/getTimeTablesByMonAndSun`, {
                     method: 'POST',
                     headers: {
@@ -244,7 +250,7 @@
                 }
                 const timeTables = await response.json();
                 console.log('timeTables=', timeTables);
-                renderTimeTable(timeTables);
+                renderBodyTable(timeTables);
             });
         });
 
@@ -280,7 +286,7 @@
             $("#theDate").val(formattedDate).trigger("change");
         }
 
-        async function renderTimeTable(timeTables) {
+        async function renderBodyTable(timeTables) {
             const dayInWeek = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
             for(let i=0;i<dayInWeek.length;i++) {
                 $("#tdS"+dayInWeek[i]).html("");
@@ -324,6 +330,26 @@
                         $("#tdT"+timeTable.timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
                 }
             });
+        }
+
+        function renderHeaderTable(mondayDate, sundayDate) {
+            // Clear previous header
+            $("#DivTimeTableHead").empty();
+
+            // Add headers for each day of the week
+            let days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
+            let currentDate = new Date(mondayDate);
+            let theadContent = '<tr><th>Buổi</th>';
+
+            while (currentDate <= sundayDate) {
+                let formattedDate = currentDate.toLocaleDateString('en-GB');
+                let dayOfWeek = currentDate.getDay();
+                theadContent += `<th>${days[dayOfWeek]} <br> ${formattedDate}</th>`;
+                currentDate.setDate(currentDate.getDate() + 1); // Move to next day
+            }
+
+            theadContent += '</tr>';
+            $("#DivTimeTableHead").append(theadContent);
         }
 
         function logout() {
