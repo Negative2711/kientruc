@@ -194,10 +194,10 @@
             let dayOfWeek = currentDate.getDay();
             // Tính toán ngày của thứ 2 (ngày bắt đầu của tuần)
             let mondayDate = new Date(currentDate);
-            mondayDate.setDate(currentDate.getDate() - (dayOfWeek - 1));
+            mondayDate.setDate(currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
             // Tính toán ngày của chủ nhật (ngày cuối của tuần)
             let sundayDate = new Date(currentDate);
-            sundayDate.setDate(currentDate.getDate() + (7 - dayOfWeek));
+            sundayDate.setDate(currentDate.getDate() + (7 - dayOfWeek + (dayOfWeek === 0 ? -6 : 0)));
             // In ra kết quả
             console.log('Monday Date:', mondayDate.toLocaleDateString());
             console.log('Sunday Date:', sundayDate.toLocaleDateString());
@@ -223,10 +223,10 @@
                 let dayOfWeek = newCurrentDate.getDay();
                 // Tính toán ngày của thứ 2 (ngày bắt đầu của tuần)
                 let newMondayDate = new Date(newCurrentDate);
-                newMondayDate.setDate(newCurrentDate.getDate() - (dayOfWeek - 1));
+                newMondayDate.setDate(newCurrentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
                 // Tính toán ngày của chủ nhật (ngày cuối của tuần)
                 let newSundayDate = new Date(newCurrentDate);
-                newSundayDate.setDate(newCurrentDate.getDate() + (7 - dayOfWeek));
+                newSundayDate.setDate(newCurrentDate.getDate() + (7 - dayOfWeek + (dayOfWeek === 0 ? -6 : 0)));
                 // In ra kết quả
                 console.log('Monday Date:', newMondayDate.toLocaleDateString());
                 console.log('Sunday Date:', newSundayDate.toLocaleDateString());
@@ -291,36 +291,37 @@
             const belongOfAfternoon = ["T7", "T8", "T9", "T10", "T11", "T12"];
             const belongOfTonight = ["T13", "T14", "T15", "T16"];
             timeTables.forEach(timeTable => {
+                console.log('timeTable==================', timeTable);
                 const tdCell = 
                 '<div class="rounded-3 border m-2 p-2" style="background: #e1e4e6;">'+
                     '<div class="text-center">'+
-                        `<span class="fw-bold">Nhập Môn Tin Học</span>`+
+                        `<span class="fw-bold">${timeTable.subject.subjectName}</span>`+
                         '<br>'+
-                        `<span>DHKTPM24ATT -</span>`+
+                        `<span>${timeTable.sectionClass.sectionClassNamePresent} -</span>`+
                         '<br>'+
-                        `<span>(10001600024)</span>`+
+                        `<span>(${timeTable.sectionClass.id})</span>`+
                     '</div>'+
                     '<ul>'+
-                        `<li><span>Tiết: ${timeTable.startLessionTime.substr(1,2)} - ${timeTable.endLessionTime.substr(1,2)}</span></li>`+
-                        `<li><span>Phòng: ${timeTable.room}</span></li>`+
-                        `<li><span>GV: Lê Thị Thanh Tuyền</span></li>`+
-                        `<li><span>Ghi chú: ${timeTable.note}</span></li>`+
+                        `<li><span>Tiết: ${timeTable.timeTable.startLessionTime.substr(1,2)} - ${timeTable.timeTable.endLessionTime.substr(1,2)}</span></li>`+
+                        `<li><span>Phòng: ${timeTable.timeTable.room}</span></li>`+
+                        `<li><span>GV: ${timeTable.teacher.rankAlias} ${timeTable.teacher.fullName}</span></li>`+
+                        `<li><span>Ghi chú: ${timeTable.timeTable.note}</span></li>`+
                     '</ul>'+
                 '</div>';
-                if(belongOfMorning.includes(timeTable.startLessionTime)) {
-                    $("#tdS"+timeTable.lessionDay).append(tdCell);
-                    if(timeTable.lessionType == 'THI')
-                        $("#tdS"+timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
+                if(belongOfMorning.includes(timeTable.timeTable.startLessionTime)) {
+                    $("#tdS"+timeTable.timeTable.lessionDay).append(tdCell);
+                    if(timeTable.timeTable.lessionType == 'THI')
+                        $("#tdS"+timeTable.timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
                 }
-                if(belongOfAfternoon.includes(timeTable.startLessionTime)) {
-                    $("#tdC"+timeTable.lessionDay).append(tdCell);
-                    if(timeTable.lessionType == 'THI')
-                        $("#tdC"+timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
+                if(belongOfAfternoon.includes(timeTable.timeTable.startLessionTime)) {
+                    $("#tdC"+timeTable.timeTable.lessionDay).append(tdCell);
+                    if(timeTable.timeTable.lessionType == 'THI')
+                        $("#tdC"+timeTable.timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
                 }
-                if(belongOfTonight.includes(timeTable.startLessionTime)) {
-                    $("#tdT"+timeTable.lessionDay).append(tdCell);
-                    if(timeTable.lessionType == 'THI')
-                        $("#tdT"+timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
+                if(belongOfTonight.includes(timeTable.timeTable.startLessionTime)) {
+                    $("#tdT"+timeTable.timeTable.lessionDay).append(tdCell);
+                    if(timeTable.timeTable.lessionType == 'THI')
+                        $("#tdT"+timeTable.timeTable.lessionDay + " > div").css({"background-color": "#fad905", "border": "1px double orange"});
                 }
             });
         }

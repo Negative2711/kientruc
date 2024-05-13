@@ -33,6 +33,7 @@ import com.example.se.qlsv.dto.CustomSemesterPatternResponseDTO.SemesterPatternR
 import com.example.se.qlsv.dto.CustomStudentGradeReponseDTO.CustomSemesterStudentGrades;
 import com.example.se.qlsv.dto.CustomStudentGradeReponseDTO.CustomStudentGradeReponseDTO;
 import com.example.se.qlsv.dto.CustomStudentProgressResponseDTO.CustomStudentProgressResponseDTO;
+import com.example.se.qlsv.dto.CustomTimeTableResponseDTO.CustomTimeTableResponseDTO;
 import com.example.se.qlsv.entity.Grade;
 import com.example.se.qlsv.entity.RegistrationSectionClass;
 import com.example.se.qlsv.entity.SectionClass;
@@ -472,14 +473,51 @@ public class StudentController {
 		System.out.println("sundayDate=" + requestDTO.getSundayDate());
 		System.out.println("lessionType=" + requestDTO.getLessionType());
 		
+		List<CustomTimeTableResponseDTO> timeTablesDTO = new ArrayList<CustomTimeTableResponseDTO>();
+		
 		if (lessionType != null && !lessionType.trim().isEmpty()) {
 	        // Kiểm tra lessionType có giá trị và không phải là chuỗi rỗng
-			if(lessionType.equalsIgnoreCase("THI")) {
-				return ResponseEntity.ok(timeTableRepository.getTimeTablesByMonAndSunFilterExaming(studentId, mondayDate, sundayDate));
+			if(lessionType.equalsIgnoreCase("THI")) {// Lấy ra timetables ko phải thi
+				List<TimeTable> timeTablesThi = timeTableRepository.getTimeTablesByMonAndSunFilterExaming(studentId, mondayDate, sundayDate);
+				for (TimeTable timeTable : timeTablesThi) {
+					CustomTimeTableResponseDTO timeTableDTO = CustomTimeTableResponseDTO
+							.builder()
+							.timeTable(timeTable)
+							.sectionClass(timeTable.getSectionClassGroup().getSectionClass())
+							.subject(timeTable.getSectionClassGroup().getSectionClass().getSubject())
+							.teacher(timeTable.getSectionClassGroup().getSectionClass().getTeacher())
+							.build();
+					timeTablesDTO.add(timeTableDTO);	
+				}
+				return ResponseEntity.ok(timeTablesDTO);
 			}
-			return ResponseEntity.ok(timeTableRepository.getTimeTablesByMonAndSunFilterNotExaming(studentId, mondayDate, sundayDate));
+			// Lấy ra timetables ko phải thi
+			List<TimeTable> timeTablesNotThi = timeTableRepository.getTimeTablesByMonAndSunFilterNotExaming(studentId, mondayDate, sundayDate);
+			for (TimeTable timeTable : timeTablesNotThi) {
+				CustomTimeTableResponseDTO timeTableDTO = CustomTimeTableResponseDTO
+						.builder()
+						.timeTable(timeTable)
+						.sectionClass(timeTable.getSectionClassGroup().getSectionClass())
+						.subject(timeTable.getSectionClassGroup().getSectionClass().getSubject())
+						.teacher(timeTable.getSectionClassGroup().getSectionClass().getTeacher())
+						.build();
+				timeTablesDTO.add(timeTableDTO);	
+			}
+			return ResponseEntity.ok(timeTablesDTO);
 	    }
-	    return ResponseEntity.ok(timeTableRepository.getTimeTablesByMonAndSun(studentId, mondayDate, sundayDate));
+		// Lấy ra timetable all
+		List<TimeTable> timeTablesByMonAndSun = timeTableRepository.getTimeTablesByMonAndSun(studentId, mondayDate, sundayDate);
+		for (TimeTable timeTable : timeTablesByMonAndSun) {
+			CustomTimeTableResponseDTO timeTableDTO = CustomTimeTableResponseDTO
+					.builder()
+					.timeTable(timeTable)
+					.sectionClass(timeTable.getSectionClassGroup().getSectionClass())
+					.subject(timeTable.getSectionClassGroup().getSectionClass().getSubject())
+					.teacher(timeTable.getSectionClassGroup().getSectionClass().getTeacher())
+					.build();
+			timeTablesDTO.add(timeTableDTO);
+		}
+	    return ResponseEntity.ok(timeTablesDTO);
 	}
 	
 	@PostMapping("/getStudentRegistrationSectionClasses")
