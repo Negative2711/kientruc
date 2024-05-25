@@ -62,10 +62,12 @@ public class Teacher implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "teacher")
     @JsonManagedReference
+    @JsonIgnore
     private Set<SectionClass> sectionClasses; // ✔️
     
     @ToString.Exclude
 	@OneToMany(mappedBy = "teacher")
 	@JsonManagedReference
+	@JsonIgnore
     private Set<TimeTable> timeTables;
 }

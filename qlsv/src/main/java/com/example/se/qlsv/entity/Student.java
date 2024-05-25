@@ -8,6 +8,7 @@ import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -82,5 +83,6 @@ public class Student implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "student")
     @JsonManagedReference
+    @JsonIgnore
     private Set<RegistrationSectionClass> registrationSectionClasses; // ✔️
 }

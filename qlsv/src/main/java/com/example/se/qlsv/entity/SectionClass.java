@@ -7,6 +7,7 @@ import java.util.Set;
 import com.example.se.qlsv.enumric.SectionClassStatus;
 import com.example.se.qlsv.enumric.SectionClassType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -57,11 +58,13 @@ public class SectionClass implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "sectionClass")
 	@JsonManagedReference
+	@JsonIgnore
 	private Set<SectionClassGroup> sectionClassGroups;
 	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "sectionClass")
 	@JsonManagedReference
+	@JsonIgnore
 	private Set<RegistrationSectionClass> registrationSectionClasses; // ✔️
 	
 	@ManyToOne

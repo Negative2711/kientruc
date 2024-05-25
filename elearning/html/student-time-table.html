@@ -138,6 +138,7 @@
 
         function validateSessionLogin() {
             jwtToken = window.sessionStorage.getItem('token');
+            console.log('jwtToken=', jwtToken);
             if (!jwtToken || jwtToken == undefined || jwtToken == '') {
                 window.location.href = "../html/student-login.html";
             }

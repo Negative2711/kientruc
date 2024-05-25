@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import com.example.se.qlsv.enumric.StageSemesterPattern;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -41,5 +42,6 @@ public class SemesterPattern implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "semesterPattern")
 	@JsonManagedReference
+	@JsonIgnore
 	private Set<Subject> subjects; // ✔️
 }

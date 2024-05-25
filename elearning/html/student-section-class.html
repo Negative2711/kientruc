@@ -897,7 +897,7 @@
             const registrationSectionClass = await response.json();
             let outCustomElement1 = ""; // Để chứa loop lịch học
             let outCustomElement2 = ""; // Để chứa loop phòng học
-            const timeTables = registrationSectionClass.sectionClassGroup.timeTables;
+            const timeTables = registrationSectionClass.timeTables;
             timeTables.forEach(timeTable => {
                 outCustomElement1 += `
                     <div>${translateEnumric(timeTable.lessionType)}: Thứ ${timeTable.lessionDay.substring(1)} - Tiết ${timeTable.startLessionTime.substring(1)}-${timeTable.endLessionTime.substring(1)}</div>

@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -321,6 +323,7 @@ public class StudentController {
 				.builder()
 				.sectionClass(registrationSectionClass.getSectionClass())
 				.sectionClassGroup(registrationSectionClass.getSectionClassGroup())
+				.timeTables(registrationSectionClass.getSectionClassGroup().getTimeTables())
 				.teacher(registrationSectionClass.getSectionClass().getTeacher())
 				.build();
 		return ResponseEntity.ok(customDTO);
@@ -451,7 +454,7 @@ public class StudentController {
 			if(registrationSectionClass.getPaid() > 0) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bạn đã đóng tiền cho học phần này rồi. Không thể hủy!");
 			}
-			// Tiến hành hủy. Update registered_student - 1
+			// 03. Tiến hành hủy. Update registered_student - 1
 			long sectionClassId = sectionClass.getId();
 			sectionClassRepository.updateRegisteredNumberMinus1(sectionClassId);
 			registrationSectionClassRepository.deleteById(registrationSectionClassId);
@@ -463,7 +466,8 @@ public class StudentController {
 	}
 	
 	@PostMapping("/getTimeTablesByMonAndSun")
-	public ResponseEntity<?> getTimeTablesByMonAndSun(@RequestBody CustomMonAndSunRequestDTO requestDTO) {
+	@Cacheable("timeTablesCache")
+	public List<CustomTimeTableResponseDTO> getTimeTablesByMonAndSun(@RequestBody CustomMonAndSunRequestDTO requestDTO) {
 		long studentId = requestDTO.getStudentId();
 		Date mondayDate = requestDTO.getMondayDate();
 		Date sundayDate = requestDTO.getSundayDate();
@@ -489,7 +493,7 @@ public class StudentController {
 							.build();
 					timeTablesDTO.add(timeTableDTO);	
 				}
-				return ResponseEntity.ok(timeTablesDTO);
+				return timeTablesDTO;
 			}
 			// Lấy ra timetables ko phải thi
 			List<TimeTable> timeTablesNotThi = timeTableRepository.getTimeTablesByMonAndSunFilterNotExaming(studentId, mondayDate, sundayDate);
@@ -503,7 +507,7 @@ public class StudentController {
 						.build();
 				timeTablesDTO.add(timeTableDTO);	
 			}
-			return ResponseEntity.ok(timeTablesDTO);
+			return timeTablesDTO;
 	    }
 		// Lấy ra timetable all
 		List<TimeTable> timeTablesByMonAndSun = timeTableRepository.getTimeTablesByMonAndSun(studentId, mondayDate, sundayDate);
@@ -517,7 +521,7 @@ public class StudentController {
 					.build();
 			timeTablesDTO.add(timeTableDTO);
 		}
-	    return ResponseEntity.ok(timeTablesDTO);
+	    return timeTablesDTO;
 	}
 	
 	@PostMapping("/getStudentRegistrationSectionClasses")

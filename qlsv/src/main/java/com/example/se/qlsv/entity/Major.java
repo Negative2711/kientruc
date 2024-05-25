@@ -3,6 +3,7 @@ package com.example.se.qlsv.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -38,10 +39,12 @@ public class Major implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "major")
 	@JsonManagedReference
+	@JsonIgnore
 	private Set<Student> students;
 	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "major")
 	@JsonManagedReference
+	@JsonIgnore
 	private Set<Subject> subjects; // ✔️
 }

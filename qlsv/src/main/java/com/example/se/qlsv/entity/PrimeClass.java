@@ -44,6 +44,7 @@ public class PrimeClass implements Serializable {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "primeClass", cascade = CascadeType.ALL)
 	@JsonManagedReference
+	@JsonIgnore
 	private Set<Student> students;
 	
 	@ManyToOne
