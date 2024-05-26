@@ -192,7 +192,7 @@
         </div>
     </div>
     <script>
-        var myChartData;
+        var myChartData = null;
         var jwtToken;
         var studentId;
         var mssv;
@@ -280,13 +280,13 @@
         async function fetchStudentRegistrationClasses() {
             try {
                 // Fetch Student Registration
-                const response = await fetch('http://localhost:8080/student/getStudentRegistrationSectionClasses', {
+                const response = await fetch('http://localhost:8080/student/getStudentRegistrationSectionClassesBySemester', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + jwtToken
                     },
-                    body: JSON.stringify({ studentId }),
+                    body: JSON.stringify({ studentId, semesterId: semesterIdFirst }),
                 });
                 if (!response.ok) {
                     const errorText = await response.text();
@@ -294,11 +294,10 @@
                 }
                 const studentRegistrationSectionClasses = await response.json();
                 if(studentRegistrationSectionClasses.length <= 0) {
-                    if (myChartData) {
-                        myChartData.destroy();
-                    }
                     const gradeResultDiv = document.getElementById('gradeResultDiv');
-                    gradeResultDiv.innerHTML = '';
+                    gradeResultDiv.innerHTML = `
+                        <canvas id="myChart"></canvas>
+                    `;
                     const gradeEmptyDiv = document.createElement('div');
                     gradeEmptyDiv.textContent = 'Chưa có dữ liệu 🦆.';
                     gradeEmptyDiv.className = 'border p-1 text-center';
@@ -316,6 +315,7 @@
                     body: JSON.stringify({ studentId, semesterId: semesterIdFirst }),
                 });
                 const registrationSectionClasses = await response2.json();
+                const tBodySubjectCourseSelected = document.getElementById("tBodySubjectCourseSelected");
                 registrationSectionClasses.forEach(itemDTO => {
                     // Render sectionClassBaseOn default selected id (fristItem)
                     const row = document.createElement('tr');
@@ -350,8 +350,10 @@
                         arrayDatas.push(studentGrade.finalGrade)
                     }
                 }
+                // const gradeResultDiv = document.getElementById('gradeResultDiv');
+                // gradeResultDiv.innerHTML = '';
                 const ctx = document.getElementById('myChart');
-                new Chart(ctx, {
+                myChartData = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: arrayLabels,
@@ -378,37 +380,94 @@
         }
         $(document).ready(async function() {
             // Listen semesterId Chose
+            // Check empty registrationSectionClasses
             $("#select_course").change(async function() {
                 const selectedValue = $(this).val();
-                const response = await fetch('http://localhost:8080/student/getStudentRegistrationSectionBySemester', {
+                const response = await fetch('http://localhost:8080/student/getStudentRegistrationSectionClassesBySemester', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + jwtToken
                     },
-                    body: JSON.stringify({ semesterId: selectedValue }),
+                    body: JSON.stringify({ studentId, semesterId: selectedValue }),
                 });
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(errorText);
                 }
-                const studentRegistrationSectionClass = await response.json();
-                // Render sectionClasses
+                const registrationSectionClasses = await response.json();
+                if(registrationSectionClasses.length <= 0) {// Nếu học kì chọn k có registrationSectionClass nào
+                    const gradeResultDiv = document.getElementById('gradeResultDiv');
+                    gradeResultDiv.innerHTML = `
+                        <canvas id="myChart"></canvas>
+                    `;
+                    const gradeEmptyDiv = document.createElement('div');
+                    gradeEmptyDiv.textContent = 'Chưa có dữ liệu 🦆.';
+                    gradeEmptyDiv.className = 'border p-1 text-center';
+                    gradeResultDiv.appendChild(gradeEmptyDiv);
+                    const tBodySubjectCourseSelected = document.getElementById("tBodySubjectCourseSelected");
+                    tBodySubjectCourseSelected.innerHTML = '';
+                    return;
+                }
                 const tBodySubjectCourseSelected = document.getElementById("tBodySubjectCourseSelected");
                 tBodySubjectCourseSelected.innerHTML = '';
-                const row = document.createElement('tr');
-
-                const sectionClassIdCell = document.createElement('td');
-                const creditsCell = document.createElement('td');
-                sectionClassIdCell.textContent = `${studentRegistrationSectionClass.sectionClass.id} / ${studentRegistrationSectionClass.subject.subjectName}`;
-                creditsCell.textContent = studentRegistrationSectionClass.subject.credits + 1;
-
-                row.appendChild(sectionClassIdCell);
-                row.appendChild(creditsCell);
-
-                tBodySubjectCourseSelected.appendChild(row);
+                registrationSectionClasses.forEach(itemDTO => {
+                    // Render sectionClassBaseOn change semesterId
+                    const row = document.createElement('tr');
+                    const sectionClassIdCell = document.createElement('td');
+                    const creditsCell = document.createElement('td');
+                    sectionClassIdCell.textContent = `${itemDTO.sectionClass.id} / ${itemDTO.subject.subjectName}`;
+                    creditsCell.textContent = itemDTO.subject.credits;
+                    row.appendChild(sectionClassIdCell);
+                    row.appendChild(creditsCell);
+                    tBodySubjectCourseSelected.appendChild(row);
+                });
 
                 // Render chart....
+                const arrayLabels = []; // Mảng labels
+                const arrayDatas = []; // Mảng datas
+                for(let i=0; i<registrationSectionClasses.length; i++) {
+                    const customStudentRegistrationSectionClass = registrationSectionClasses[i];
+                    arrayLabels.push(customStudentRegistrationSectionClass.subject.subjectName);
+                    const response3 = await fetch('http://localhost:8080/student/getGradeByRegistrationSectionClass', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + jwtToken
+                        },
+                        body: JSON.stringify({ registrationSectionClassId: customStudentRegistrationSectionClass.registrationSectionClass.id })
+                    });
+                    if(!response3.ok) {
+                        console.log('response3=', response3.ok);
+                        arrayDatas.push(0.0);
+                    } else {
+                        const studentGrade = await response3.json();
+                        arrayDatas.push(studentGrade.finalGrade)
+                    }
+                }
+                const gradeResultDiv = document.getElementById('gradeResultDiv');
+                gradeResultDiv.innerHTML = `
+                    <canvas id="myChart"></canvas>
+                `;
+                const ctx = document.getElementById('myChart');
+                myChartData = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: arrayLabels,
+                        datasets: [{
+                            label: '# điểm tổng kết môn',
+                            data: arrayDatas,
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
             });
         });
 

@@ -49,57 +49,54 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
-		
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getMssv(), loginRequestDTO.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		System.out.println("authorities=" + authorities);
-		if(authorities.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unrole user access");
+		try {
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequestDTO.getMssv(), loginRequestDTO.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+			System.out.println("authorities=" + authorities);
+			if (authorities.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unrole user access");
+			}
+			Object[] userRoles = authorities.toArray();
+			String userRole = userRoles[0].toString();
+			RoleName userRoleName = RoleName.valueOf(userRole);
+			RoleName roleNameDTO = loginRequestDTO.getRoleName();
+			if (!roleNameDTO.equals(userRoleName)) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not match role user account!");
+			}
+			User principalForceToUser = (User) authentication.getPrincipal();
+			System.out.println("principalForceToUser=" + principalForceToUser.getId());
+			Optional<User> theUser = userRepository.findById(principalForceToUser.getId());
+			if (!theUser.isPresent()) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not find the user!");
+			}
+			String token = jwtUltilities.generateToken(loginRequestDTO.getMssv(), userRoleName);
+			long userId = principalForceToUser.getId();
+			if (roleNameDTO.equals(RoleName.STUDENT)) {
+				Student student = studentService.findByUserId(userId);
+				long studentId = student.getId();
+				LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+				loginResponseDTO.setObjectId(studentId);
+				loginResponseDTO.setToken(token);
+				return ResponseEntity.ok(loginResponseDTO);
+			}
+			if (roleNameDTO.equals(RoleName.TEACHER)) {
+				return ResponseEntity.ok(null);
+			}
+			if (roleNameDTO.equals(RoleName.MANAGER)) {
+				Manager manager = managerRepository.findByUserId(userId);
+				long managerId = manager.getId();
+				LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+				loginResponseDTO.setObjectId(managerId);
+				loginResponseDTO.setToken(token);
+				return ResponseEntity.ok(loginResponseDTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		Object[] userRoles = authorities.toArray();
-		String userRole = userRoles[0].toString();
-		RoleName userRoleName = RoleName.valueOf(userRole);
-		
-		RoleName roleNameDTO = loginRequestDTO.getRoleName();
-		if(!roleNameDTO.equals(userRoleName)) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not match role user account!");
-		}
-		
-		User principalForceToUser = (User) authentication.getPrincipal();
-		System.out.println("principalForceToUser=" + principalForceToUser.getId());
-		
-		Optional<User> theUser = userRepository.findById(principalForceToUser.getId());
-		if(!theUser.isPresent()) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not find the user!");
-		}
-		
-		String token = jwtUltilities.generateToken(loginRequestDTO.getMssv(), userRoleName);
-		long userId = principalForceToUser.getId();
-	
-		
-		if(roleNameDTO.equals(RoleName.STUDENT)) {
-			Student student = studentService.findByUserId(userId);
-	    	long studentId = student.getId();
-	    	LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-	    	loginResponseDTO.setObjectId(studentId);
-	    	loginResponseDTO.setToken(token);
-	    	return ResponseEntity.ok(loginResponseDTO);
-		}
-		
-		if(roleNameDTO.equals(RoleName.TEACHER)) {
-	    	return ResponseEntity.ok(null);
-		}
-		
-		if(roleNameDTO.equals(RoleName.MANAGER)) {
-			Manager manager = managerRepository.findByUserId(userId);
-	    	long managerId = manager.getId();
-	    	LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-	    	loginResponseDTO.setObjectId(managerId);
-	    	loginResponseDTO.setToken(token);
-	    	return ResponseEntity.ok(loginResponseDTO);
-		}
-		
-	    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Couldn't find the User Class account belong to!");
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.body("Couldn't find the User Class account belong to!");
 	}
 }

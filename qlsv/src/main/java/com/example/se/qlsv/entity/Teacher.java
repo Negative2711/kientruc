@@ -69,5 +69,5 @@ public class Teacher implements Serializable {
 	@OneToMany(mappedBy = "teacher")
 	@JsonManagedReference
 	@JsonIgnore
-    private Set<TimeTable> timeTables;
+    private Set<PrimeClass> primeClasses;
 }

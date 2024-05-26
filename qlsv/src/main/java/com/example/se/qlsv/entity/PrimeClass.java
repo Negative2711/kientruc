@@ -52,8 +52,8 @@ public class PrimeClass implements Serializable {
 	@JsonBackReference
 	private SemesterSchool semesterSchool;// ✔️
 	
-	@OneToOne
-	@JoinColumn(name = "teacher_id", referencedColumnName = "id")
-	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "teacher_id")
+	@JsonBackReference
 	private Teacher teacher; // ✔️
 }

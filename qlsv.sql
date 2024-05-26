@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2024 at 05:19 AM
+-- Generation Time: May 25, 2024 at 06:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -200,7 +200,8 @@ INSERT INTO `registration_section_class` (`id`, `class_group_name`, `paid`, `reg
 (2, 'KHONG_PHAN_NHOM', 0, '2024-04-01 16:38:05.000000', 2, 2, 1),
 (3, 'KHONG_PHAN_NHOM', 0, '2024-05-09 15:28:53.000000', 3, 3, 2),
 (4, 'KHONG_PHAN_NHOM', 0, '2024-05-09 15:30:10.000000', 3, 3, 3),
-(6, 'KHONG_PHAN_NHOM', 0, '2024-05-09 15:31:22.000000', 3, 3, 4);
+(6, 'KHONG_PHAN_NHOM', 0, '2024-05-09 15:31:22.000000', 3, 3, 4),
+(7, 'KHONG_PHAN_NHOM', 0, '2024-05-25 06:48:20.000000', 4, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -251,7 +252,7 @@ INSERT INTO `section_class` (`id`, `end_date`, `lock_status`, `max_student`, `se
 (1, '2024-04-30 16:36:03.000000', 'CHAP_NHAN_MO_LOP', 50, 'DHKTPM24ATT', '2024-04-01 16:36:03.000000', 1, 1, '2024-04-24 17:00:00', 1, 0, 'HOC_MOI'),
 (2, '2024-12-31 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24BTT', '2024-06-01 00:00:00.000000', 2, 1, '2024-04-24 17:00:00', 1, 0, 'HOC_MOI'),
 (3, '2024-04-30 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24CTT', '2024-04-01 00:00:00.000000', 3, 1, '2024-04-01 05:29:51', 1, 3, 'HOC_MOI'),
-(4, '2024-04-30 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24DTT', '2024-04-01 00:00:00.000000', 4, 1, '2024-04-24 17:00:00', 1, 0, 'HOC_MOI'),
+(4, '2024-04-30 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24DTT', '2024-04-01 00:00:00.000000', 4, 1, '2024-04-24 17:00:00', 1, 1, 'HOC_MOI'),
 (5, '2024-05-31 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24ETT', '2024-05-01 00:00:00.000000', 5, 1, '2024-04-24 17:00:00', 1, 0, 'HOC_MOI'),
 (6, '2024-12-31 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24ETT', '2024-06-01 00:00:00.000000', 6, 1, '2024-05-08 05:22:18', 1, 0, 'HOC_MOI'),
 (7, '2024-12-31 00:00:00.000000', 'DANG_CHO_SINH_VIEN_DANG_KY', 50, 'DHKTPM24ETT', '2024-06-01 00:00:00.000000', 7, 1, '2024-05-08 05:22:18', 1, 0, 'HOC_MOI'),
@@ -459,11 +460,11 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`id`, `address`, `avatar`, `date_of_birth`, `email`, `full_name`, `gender`, `join_school_date`, `phone_number`, `place_born`, `department_id`, `user_id`, `rank_alias`) VALUES
-(1, '365/33 Gò Vấp TPHCM', 'https://faceinch.vn/upload/news/chup-anh-the-tha-toc-3007.jpg', '1994-04-01 13:17:53.000000', 'lethia@gmail.com', 'Lê Thị A', 'NU', '2016-04-01 13:17:53.000000', '0329139871', 'HỒ CHÍ MINH', 1001, 11, NULL),
-(2, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethib@gmail.com', 'Lê Thị B', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 12, NULL),
-(3, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethic@gmail.com', 'Lê Thị C', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 13, NULL),
-(4, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethid@gmail.com', 'Lê Thị D', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 14, NULL),
-(5, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethie@gmail.com', 'Lê Thị E', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 15, NULL);
+(1, '365/33 Gò Vấp TPHCM', 'https://faceinch.vn/upload/news/chup-anh-the-tha-toc-3007.jpg', '1994-04-01 13:17:53.000000', 'lethia@gmail.com', 'Lê Thị A', 'NU', '2016-04-01 13:17:53.000000', '0329139871', 'HỒ CHÍ MINH', 1001, 11, 'Th.s'),
+(2, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethib@gmail.com', 'Lê Thị B', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 12, 'T.S'),
+(3, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethic@gmail.com', 'Lê Thị C', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 13, 'Th.s'),
+(4, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethid@gmail.com', 'Lê Thị D', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 14, 'T.S'),
+(5, '365/34 Gò Vấp TPHCM', 'https://lh3.googleusercontent.com/proxy/MZgo0t4Wu-yZaGSVP2jMhyZoVUwMV1E6vWJ7ecWpnsZcHUuWvtC5v7eV5A56CI6aUTdoefRI9ahDYbTWljdeW9Is2IshAy7TKQnmDiUuLDpcfJOedbZ1ABj8M4rSmPaVhoLH7u0NUPYEdbw', '1994-04-01 13:17:53.000000', 'lethie@gmail.com', 'Lê Thị E', 'NU', '2016-04-01 13:17:53.000000', '07930107794', 'HÀ NỘI', 1001, 15, 'Cử Nhân');
 
 -- --------------------------------------------------------
 
@@ -728,7 +729,7 @@ ALTER TABLE `prime_class`
 -- AUTO_INCREMENT for table `registration_section_class`
 --
 ALTER TABLE `registration_section_class`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `role`

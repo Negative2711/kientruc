@@ -1,13 +1,11 @@
 package com.example.se.qlsv.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 import org.hibernate.annotations.Comment;
 
 import com.example.se.qlsv.enumric.ClassGroupName;
-import com.example.se.qlsv.enumric.SectionClassStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -15,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

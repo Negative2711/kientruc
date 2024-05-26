@@ -12,7 +12,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -526,6 +525,7 @@ public class StudentController {
 	
 	@PostMapping("/getStudentRegistrationSectionClasses")
 	public ResponseEntity<?> getStudentRegistrationSectionClasses(@RequestBody Map<String, Object> requestBody) {
+		System.out.println("getStudentRegistrationSectionClasses was calledddddddddddddddddddddddddddddddddd!");
 		Long studentId = Long.parseLong(requestBody.get("studentId").toString());
 		List<RegistrationSectionClass> studentRegistrationSectionClasses = registrationSectionClassRepository.getStudentRegistrationSectionClasses(studentId);
 		List<CustomRegistrationSectionClassResponseDTO> list = new ArrayList<CustomRegistrationSectionClassResponseDTO>();
