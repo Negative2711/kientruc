@@ -439,9 +439,8 @@ public class StudentController {
 	}
 	
 	@DeleteMapping("/destroyRegistration/{registrationSectionClassId}")
-	public ResponseEntity<?> registerRegistrationSectionClass(@PathVariable long registrationSectionClassId) {
+	public ResponseEntity<?> destroyRegistrationSectionClass(@PathVariable long registrationSectionClassId) {
 		try {
-			System.out.println("registrationSectionClassId=" + registrationSectionClassId);
 			// 01. Kiểm tra trạng thái LHP Chấp nhận mở lớp hay đã khóa chưa
 			// 02. Kiểm tra đã đóng tiền chưa
 			RegistrationSectionClass registrationSectionClass = registrationSectionClassRepository.findById(registrationSectionClassId).orElse(null);
@@ -540,20 +539,6 @@ public class StudentController {
 			list.add(customMoreObjectReturn);
 		}
 	    return ResponseEntity.ok(list);
-	}
-	
-	@PostMapping("/getStudentRegistrationSectionBySemester")
-	public ResponseEntity<?> getStudentRegistrationSectionBySemester(@RequestBody Map<String, Object> requestBody) {
-		Long semesterId = Long.parseLong(requestBody.get("semesterId").toString());
-		RegistrationSectionClass registrationSectionClass = registrationSectionClassRepository.getStudentRegistrationSectionClassBySemester(semesterId);
-		CustomRegistrationSectionClassResponseDTO customMoreObjectReturn = CustomRegistrationSectionClassResponseDTO
-				.builder()
-				.registrationSectionClass(registrationSectionClass)
-				.sectionClass(registrationSectionClass.getSectionClass())
-				.subject(registrationSectionClass.getSectionClass().getSubject())
-				.semesterSchool(registrationSectionClass.getSectionClass().getSemesterSchool())
-				.build(); 
-		return ResponseEntity.ok(customMoreObjectReturn);
 	}
 	
 	@PostMapping("/getGradeByRegistrationSectionClass")
